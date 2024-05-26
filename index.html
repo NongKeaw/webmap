@@ -35,9 +35,11 @@
         <script src="js/labelgun.min.js"></script>
         <script src="js/labels.js"></script>
         <script src="js/leaflet-measure.js"></script>
-        <script src="data/LU66_1.js"></script>
-        <script src="data/LU57_2.js"></script>
-        <script src="data/LU45_3.js"></script>
+        <script src="data/2566_1.js"></script>
+        <script src="data/2557_2.js"></script>
+        <script src="data/2545_3.js"></script>
+        <script src="data/_4.js"></script>
+        <script src="data/_5.js"></script>
         <script>
         var highlightLayer;
         function highlightFeature(e) {
@@ -100,7 +102,7 @@
         });
         layer_googlesatellite_0;
         map.addLayer(layer_googlesatellite_0);
-        function pop_LU66_1(feature, layer) {
+        function pop_2566_1(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     if (typeof layer.closePopup == 'function') {
@@ -126,7 +128,7 @@
             popup.setContent(updatedContent);
         }
 
-        var pattern_LU66_1_0 = new L.StripePattern({
+        var pattern_2566_1_0 = new L.StripePattern({
             weight: 0.3,
             spaceWeight: 2.0,
             color: '#fa2424',
@@ -134,8 +136,8 @@
             spaceOpacity: 0,
             angle: 315
         });
-        pattern_LU66_1_0.addTo(map);
-        var pattern_LU66_1_0 = new L.StripePattern({
+        pattern_2566_1_0.addTo(map);
+        var pattern_2566_1_0 = new L.StripePattern({
             weight: 0.3,
             spaceWeight: 2.0,
             color: '#fff652',
@@ -143,8 +145,8 @@
             spaceOpacity: 0,
             angle: 315
         });
-        pattern_LU66_1_0.addTo(map);
-        var pattern_LU66_1_0 = new L.StripePattern({
+        pattern_2566_1_0.addTo(map);
+        var pattern_2566_1_0 = new L.StripePattern({
             weight: 0.3,
             spaceWeight: 2.0,
             color: '#a210e6',
@@ -152,8 +154,8 @@
             spaceOpacity: 0,
             angle: 315
         });
-        pattern_LU66_1_0.addTo(map);
-        var pattern_LU66_1_0 = new L.StripePattern({
+        pattern_2566_1_0.addTo(map);
+        var pattern_2566_1_0 = new L.StripePattern({
             weight: 0.3,
             spaceWeight: 2.0,
             color: '#fa2424',
@@ -161,12 +163,12 @@
             spaceOpacity: 0,
             angle: 270
         });
-        pattern_LU66_1_0.addTo(map);
-        function style_LU66_1_0(feature) {
+        pattern_2566_1_0.addTo(map);
+        function style_2566_1_0(feature) {
             switch(String(feature.properties['LU66'])) {
                 case 'ถนน':
                     return {
-                pane: 'pane_LU66_1',
+                pane: 'pane_2566_1',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -181,7 +183,7 @@
                     break;
                 case 'ที่พักอาศัย':
                     return {
-                pane: 'pane_LU66_1',
+                pane: 'pane_2566_1',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -196,7 +198,7 @@
                     break;
                 case 'ป่าผลัดใบ':
                     return {
-                pane: 'pane_LU66_1',
+                pane: 'pane_2566_1',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -211,7 +213,7 @@
                     break;
                 case 'พืชไร่':
                     return {
-                pane: 'pane_LU66_1',
+                pane: 'pane_2566_1',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -226,7 +228,7 @@
                     break;
                 case 'พื้นที่ของมูลนิธิโครงการหลวง':
                     return {
-                pane: 'pane_LU66_1',
+                pane: 'pane_2566_1',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -241,7 +243,7 @@
                     break;
                 case 'พื้นที่ลุ่ม':
                     return {
-                pane: 'pane_LU66_1',
+                pane: 'pane_2566_1',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -256,7 +258,7 @@
                     break;
                 case 'ไม้ผล':
                     return {
-                pane: 'pane_LU66_1',
+                pane: 'pane_2566_1',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -271,7 +273,7 @@
                     break;
                 case 'ไม้ยืนต้น':
                     return {
-                pane: 'pane_LU66_1',
+                pane: 'pane_2566_1',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -286,7 +288,7 @@
                     break;
                 case 'สถานที่ราชการ':
                     return {
-                pane: 'pane_LU66_1',
+                pane: 'pane_2566_1',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -301,34 +303,34 @@
                     break;
                 case 'สถานที่สำคัญทางศาสนา':
                     return {
-                pane: 'pane_LU66_1',
+                pane: 'pane_2566_1',
                 stroke: false,
                 fillOpacity: 1,
-                fillPattern: pattern_LU66_1_0,
+                fillPattern: pattern_2566_1_0,
                 interactive: false,
             }
                     break;
                 case 'สถานศึกษา':
                     return {
-                pane: 'pane_LU66_1',
+                pane: 'pane_2566_1',
                 stroke: false,
                 fillOpacity: 1,
-                fillPattern: pattern_LU66_1_0,
+                fillPattern: pattern_2566_1_0,
                 interactive: false,
             }
                     break;
                 case 'สถานีอนามัย':
                     return {
-                pane: 'pane_LU66_1',
+                pane: 'pane_2566_1',
                 stroke: false,
                 fillOpacity: 1,
-                fillPattern: pattern_LU66_1_0,
+                fillPattern: pattern_2566_1_0,
                 interactive: false,
             }
                     break;
                 case 'แหล่งน้ำที่สร้างขึ้น':
                     return {
-                pane: 'pane_LU66_1',
+                pane: 'pane_2566_1',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -343,16 +345,16 @@
                     break;
                 case 'อื่นๆ':
                     return {
-                pane: 'pane_LU66_1',
+                pane: 'pane_2566_1',
                 stroke: false,
                 fillOpacity: 1,
-                fillPattern: pattern_LU66_1_0,
+                fillPattern: pattern_2566_1_0,
                 interactive: false,
             }
                     break;
                 case 'อุตสาหกรรม':
                     return {
-                pane: 'pane_LU66_1',
+                pane: 'pane_2566_1',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -367,7 +369,7 @@
                     break;
                 default:
                     return {
-                pane: 'pane_LU66_1',
+                pane: 'pane_2566_1',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -382,21 +384,21 @@
                     break;
             }
         }
-        map.createPane('pane_LU66_1');
-        map.getPane('pane_LU66_1').style.zIndex = 401;
-        map.getPane('pane_LU66_1').style['mix-blend-mode'] = 'normal';
-        var layer_LU66_1 = new L.geoJson(json_LU66_1, {
+        map.createPane('pane_2566_1');
+        map.getPane('pane_2566_1').style.zIndex = 401;
+        map.getPane('pane_2566_1').style['mix-blend-mode'] = 'normal';
+        var layer_2566_1 = new L.geoJson(json_2566_1, {
             attribution: '',
             interactive: false,
-            dataVar: 'json_LU66_1',
-            layerName: 'layer_LU66_1',
-            pane: 'pane_LU66_1',
-            onEachFeature: pop_LU66_1,
-            style: style_LU66_1_0,
+            dataVar: 'json_2566_1',
+            layerName: 'layer_2566_1',
+            pane: 'pane_2566_1',
+            onEachFeature: pop_2566_1,
+            style: style_2566_1_0,
         });
-        bounds_group.addLayer(layer_LU66_1);
-        map.addLayer(layer_LU66_1);
-        function pop_LU57_2(feature, layer) {
+        bounds_group.addLayer(layer_2566_1);
+        map.addLayer(layer_2566_1);
+        function pop_2557_2(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     if (typeof layer.closePopup == 'function') {
@@ -421,7 +423,7 @@
             popup.setContent(updatedContent);
         }
 
-        var pattern_LU57_2_0 = new L.StripePattern({
+        var pattern_2557_2_0 = new L.StripePattern({
             weight: 0.3,
             spaceWeight: 2.0,
             color: '#fa2424',
@@ -429,8 +431,8 @@
             spaceOpacity: 0,
             angle: 315
         });
-        pattern_LU57_2_0.addTo(map);
-        var pattern_LU57_2_0 = new L.StripePattern({
+        pattern_2557_2_0.addTo(map);
+        var pattern_2557_2_0 = new L.StripePattern({
             weight: 0.3,
             spaceWeight: 2.0,
             color: '#fff652',
@@ -438,8 +440,8 @@
             spaceOpacity: 0,
             angle: 315
         });
-        pattern_LU57_2_0.addTo(map);
-        var pattern_LU57_2_0 = new L.StripePattern({
+        pattern_2557_2_0.addTo(map);
+        var pattern_2557_2_0 = new L.StripePattern({
             weight: 0.3,
             spaceWeight: 2.0,
             color: '#a210e6',
@@ -447,8 +449,8 @@
             spaceOpacity: 0,
             angle: 315
         });
-        pattern_LU57_2_0.addTo(map);
-        var pattern_LU57_2_0 = new L.StripePattern({
+        pattern_2557_2_0.addTo(map);
+        var pattern_2557_2_0 = new L.StripePattern({
             weight: 0.3,
             spaceWeight: 2.0,
             color: '#fa2424',
@@ -456,12 +458,12 @@
             spaceOpacity: 0,
             angle: 270
         });
-        pattern_LU57_2_0.addTo(map);
-        function style_LU57_2_0(feature) {
+        pattern_2557_2_0.addTo(map);
+        function style_2557_2_0(feature) {
             switch(String(feature.properties['LU57'])) {
                 case 'ถนน':
                     return {
-                pane: 'pane_LU57_2',
+                pane: 'pane_2557_2',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -476,7 +478,7 @@
                     break;
                 case 'ที่พักอาศัย':
                     return {
-                pane: 'pane_LU57_2',
+                pane: 'pane_2557_2',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -491,7 +493,7 @@
                     break;
                 case 'ป่าผลัดใบ':
                     return {
-                pane: 'pane_LU57_2',
+                pane: 'pane_2557_2',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -506,7 +508,7 @@
                     break;
                 case 'พืชไร่':
                     return {
-                pane: 'pane_LU57_2',
+                pane: 'pane_2557_2',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -521,7 +523,7 @@
                     break;
                 case 'พื้นที่ของมูลนิธิโครงการหลวง':
                     return {
-                pane: 'pane_LU57_2',
+                pane: 'pane_2557_2',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -536,7 +538,7 @@
                     break;
                 case 'พื้นที่ลุ่ม':
                     return {
-                pane: 'pane_LU57_2',
+                pane: 'pane_2557_2',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -551,7 +553,7 @@
                     break;
                 case 'ไม้ผล':
                     return {
-                pane: 'pane_LU57_2',
+                pane: 'pane_2557_2',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -566,7 +568,7 @@
                     break;
                 case 'ไม้ยืนต้น':
                     return {
-                pane: 'pane_LU57_2',
+                pane: 'pane_2557_2',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -581,7 +583,7 @@
                     break;
                 case 'สถานที่ราชการ':
                     return {
-                pane: 'pane_LU57_2',
+                pane: 'pane_2557_2',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -596,34 +598,34 @@
                     break;
                 case 'สถานที่สำคัญทางศาสนา':
                     return {
-                pane: 'pane_LU57_2',
+                pane: 'pane_2557_2',
                 stroke: false,
                 fillOpacity: 1,
-                fillPattern: pattern_LU57_2_0,
+                fillPattern: pattern_2557_2_0,
                 interactive: false,
             }
                     break;
                 case 'สถานศึกษา':
                     return {
-                pane: 'pane_LU57_2',
+                pane: 'pane_2557_2',
                 stroke: false,
                 fillOpacity: 1,
-                fillPattern: pattern_LU57_2_0,
+                fillPattern: pattern_2557_2_0,
                 interactive: false,
             }
                     break;
                 case 'สถานีอนามัย':
                     return {
-                pane: 'pane_LU57_2',
+                pane: 'pane_2557_2',
                 stroke: false,
                 fillOpacity: 1,
-                fillPattern: pattern_LU57_2_0,
+                fillPattern: pattern_2557_2_0,
                 interactive: false,
             }
                     break;
                 case 'แหล่งน้ำที่สร้างขึ้น':
                     return {
-                pane: 'pane_LU57_2',
+                pane: 'pane_2557_2',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -638,16 +640,16 @@
                     break;
                 case 'อื่นๆ':
                     return {
-                pane: 'pane_LU57_2',
+                pane: 'pane_2557_2',
                 stroke: false,
                 fillOpacity: 1,
-                fillPattern: pattern_LU57_2_0,
+                fillPattern: pattern_2557_2_0,
                 interactive: false,
             }
                     break;
                 default:
                     return {
-                pane: 'pane_LU57_2',
+                pane: 'pane_2557_2',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -662,21 +664,21 @@
                     break;
             }
         }
-        map.createPane('pane_LU57_2');
-        map.getPane('pane_LU57_2').style.zIndex = 402;
-        map.getPane('pane_LU57_2').style['mix-blend-mode'] = 'normal';
-        var layer_LU57_2 = new L.geoJson(json_LU57_2, {
+        map.createPane('pane_2557_2');
+        map.getPane('pane_2557_2').style.zIndex = 402;
+        map.getPane('pane_2557_2').style['mix-blend-mode'] = 'normal';
+        var layer_2557_2 = new L.geoJson(json_2557_2, {
             attribution: '',
             interactive: false,
-            dataVar: 'json_LU57_2',
-            layerName: 'layer_LU57_2',
-            pane: 'pane_LU57_2',
-            onEachFeature: pop_LU57_2,
-            style: style_LU57_2_0,
+            dataVar: 'json_2557_2',
+            layerName: 'layer_2557_2',
+            pane: 'pane_2557_2',
+            onEachFeature: pop_2557_2,
+            style: style_2557_2_0,
         });
-        bounds_group.addLayer(layer_LU57_2);
-        map.addLayer(layer_LU57_2);
-        function pop_LU45_3(feature, layer) {
+        bounds_group.addLayer(layer_2557_2);
+        map.addLayer(layer_2557_2);
+        function pop_2545_3(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     if (typeof layer.closePopup == 'function') {
@@ -701,7 +703,7 @@
             popup.setContent(updatedContent);
         }
 
-        var pattern_LU45_3_0 = new L.StripePattern({
+        var pattern_2545_3_0 = new L.StripePattern({
             weight: 0.3,
             spaceWeight: 2.0,
             color: '#fa2424',
@@ -709,8 +711,8 @@
             spaceOpacity: 0,
             angle: 315
         });
-        pattern_LU45_3_0.addTo(map);
-        var pattern_LU45_3_0 = new L.StripePattern({
+        pattern_2545_3_0.addTo(map);
+        var pattern_2545_3_0 = new L.StripePattern({
             weight: 0.3,
             spaceWeight: 2.0,
             color: '#fff652',
@@ -718,8 +720,8 @@
             spaceOpacity: 0,
             angle: 315
         });
-        pattern_LU45_3_0.addTo(map);
-        var pattern_LU45_3_0 = new L.StripePattern({
+        pattern_2545_3_0.addTo(map);
+        var pattern_2545_3_0 = new L.StripePattern({
             weight: 0.3,
             spaceWeight: 2.0,
             color: '#a210e6',
@@ -727,8 +729,8 @@
             spaceOpacity: 0,
             angle: 315
         });
-        pattern_LU45_3_0.addTo(map);
-        var pattern_LU45_3_0 = new L.StripePattern({
+        pattern_2545_3_0.addTo(map);
+        var pattern_2545_3_0 = new L.StripePattern({
             weight: 0.3,
             spaceWeight: 2.0,
             color: '#fa2424',
@@ -736,12 +738,12 @@
             spaceOpacity: 0,
             angle: 270
         });
-        pattern_LU45_3_0.addTo(map);
-        function style_LU45_3_0(feature) {
+        pattern_2545_3_0.addTo(map);
+        function style_2545_3_0(feature) {
             switch(String(feature.properties['LU45'])) {
                 case 'ถนน':
                     return {
-                pane: 'pane_LU45_3',
+                pane: 'pane_2545_3',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -756,7 +758,7 @@
                     break;
                 case 'ที่พักอาศัย':
                     return {
-                pane: 'pane_LU45_3',
+                pane: 'pane_2545_3',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -771,7 +773,7 @@
                     break;
                 case 'ป่าผลัดใบ':
                     return {
-                pane: 'pane_LU45_3',
+                pane: 'pane_2545_3',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -786,7 +788,7 @@
                     break;
                 case 'พืชไร่':
                     return {
-                pane: 'pane_LU45_3',
+                pane: 'pane_2545_3',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -801,7 +803,7 @@
                     break;
                 case 'พื้นที่ของมูลนิธิโครงการหลวง':
                     return {
-                pane: 'pane_LU45_3',
+                pane: 'pane_2545_3',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -816,7 +818,7 @@
                     break;
                 case 'พื้นที่ลุ่ม':
                     return {
-                pane: 'pane_LU45_3',
+                pane: 'pane_2545_3',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -831,7 +833,7 @@
                     break;
                 case 'ไม้ผล':
                     return {
-                pane: 'pane_LU45_3',
+                pane: 'pane_2545_3',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -846,7 +848,7 @@
                     break;
                 case 'ไม้ยืนต้น':
                     return {
-                pane: 'pane_LU45_3',
+                pane: 'pane_2545_3',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -861,7 +863,7 @@
                     break;
                 case 'สถานที่ราชการ':
                     return {
-                pane: 'pane_LU45_3',
+                pane: 'pane_2545_3',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -876,34 +878,34 @@
                     break;
                 case 'สถานที่สำคัญทางศาสนา':
                     return {
-                pane: 'pane_LU45_3',
+                pane: 'pane_2545_3',
                 stroke: false,
                 fillOpacity: 1,
-                fillPattern: pattern_LU45_3_0,
+                fillPattern: pattern_2545_3_0,
                 interactive: false,
             }
                     break;
                 case 'สถานศึกษา':
                     return {
-                pane: 'pane_LU45_3',
+                pane: 'pane_2545_3',
                 stroke: false,
                 fillOpacity: 1,
-                fillPattern: pattern_LU45_3_0,
+                fillPattern: pattern_2545_3_0,
                 interactive: false,
             }
                     break;
                 case 'สถานีอนามัย':
                     return {
-                pane: 'pane_LU45_3',
+                pane: 'pane_2545_3',
                 stroke: false,
                 fillOpacity: 1,
-                fillPattern: pattern_LU45_3_0,
+                fillPattern: pattern_2545_3_0,
                 interactive: false,
             }
                     break;
                 case 'แหล่งน้ำที่สร้างขึ้น':
                     return {
-                pane: 'pane_LU45_3',
+                pane: 'pane_2545_3',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -918,16 +920,16 @@
                     break;
                 case 'อื่นๆ':
                     return {
-                pane: 'pane_LU45_3',
+                pane: 'pane_2545_3',
                 stroke: false,
                 fillOpacity: 1,
-                fillPattern: pattern_LU45_3_0,
+                fillPattern: pattern_2545_3_0,
                 interactive: false,
             }
                     break;
                 default:
                     return {
-                pane: 'pane_LU45_3',
+                pane: 'pane_2545_3',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -942,25 +944,281 @@
                     break;
             }
         }
-        map.createPane('pane_LU45_3');
-        map.getPane('pane_LU45_3').style.zIndex = 403;
-        map.getPane('pane_LU45_3').style['mix-blend-mode'] = 'normal';
-        var layer_LU45_3 = new L.geoJson(json_LU45_3, {
+        map.createPane('pane_2545_3');
+        map.getPane('pane_2545_3').style.zIndex = 403;
+        map.getPane('pane_2545_3').style['mix-blend-mode'] = 'normal';
+        var layer_2545_3 = new L.geoJson(json_2545_3, {
             attribution: '',
             interactive: false,
-            dataVar: 'json_LU45_3',
-            layerName: 'layer_LU45_3',
-            pane: 'pane_LU45_3',
-            onEachFeature: pop_LU45_3,
-            style: style_LU45_3_0,
+            dataVar: 'json_2545_3',
+            layerName: 'layer_2545_3',
+            pane: 'pane_2545_3',
+            onEachFeature: pop_2545_3,
+            style: style_2545_3_0,
         });
-        bounds_group.addLayer(layer_LU45_3);
-        map.addLayer(layer_LU45_3);
+        bounds_group.addLayer(layer_2545_3);
+        map.addLayer(layer_2545_3);
+        function pop__4(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Id'] !== null ? autolinker.link(feature.properties['Id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Length'] !== null ? autolinker.link(feature.properties['Length'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Type'] !== null ? autolinker.link(feature.properties['Type'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
+        }
+
+        function style__4_0() {
+            return {
+                pane: 'pane__4',
+                opacity: 1,
+                color: 'rgba(230,24,28,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: false,
+            }
+        }
+        map.createPane('pane__4');
+        map.getPane('pane__4').style.zIndex = 404;
+        map.getPane('pane__4').style['mix-blend-mode'] = 'normal';
+        var layer__4 = new L.geoJson(json__4, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json__4',
+            layerName: 'layer__4',
+            pane: 'pane__4',
+            onEachFeature: pop__4,
+            style: style__4_0,
+        });
+        bounds_group.addLayer(layer__4);
+        map.addLayer(layer__4);
+        function pop__5(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Id'] !== null ? autolinker.link(feature.properties['Id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Name'] !== null ? autolinker.link(feature.properties['Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
+        }
+
+        function style__5_0(feature) {
+            switch(String(feature.properties['Name'])) {
+                case 'บ้านแซแล':
+                    return {
+                pane: 'pane__5',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(191,113,205,1.0)',
+                interactive: false,
+            }
+                    break;
+                case 'บ้านรินหลวง':
+                    return {
+                pane: 'pane__5',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(240,223,126,1.0)',
+                interactive: false,
+            }
+                    break;
+                case 'บ้านหนองเขียว':
+                    return {
+                pane: 'pane__5',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(109,156,209,1.0)',
+                interactive: false,
+            }
+                    break;
+                case 'บ้านหนองเขียวคะฉิ่น':
+                    return {
+                pane: 'pane__5',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(115,231,14,1.0)',
+                interactive: false,
+            }
+                    break;
+                case 'บ้านหนองเขียวลัวะ':
+                    return {
+                pane: 'pane__5',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(200,71,42,1.0)',
+                interactive: false,
+            }
+                    break;
+                case 'บ้านหนองวัวเแดง':
+                    return {
+                pane: 'pane__5',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(84,46,235,1.0)',
+                interactive: false,
+            }
+                    break;
+                case 'บ้านอรุโณทัย':
+                    return {
+                pane: 'pane__5',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(89,228,117,1.0)',
+                interactive: false,
+            }
+                    break;
+                case 'บ้านอาข่า':
+                    return {
+                pane: 'pane__5',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(239,36,134,1.0)',
+                interactive: false,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane__5',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(35,228,202,1.0)',
+                interactive: false,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane__5');
+        map.getPane('pane__5').style.zIndex = 405;
+        map.getPane('pane__5').style['mix-blend-mode'] = 'normal';
+        var layer__5 = new L.geoJson(json__5, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json__5',
+            layerName: 'layer__5',
+            pane: 'pane__5',
+            onEachFeature: pop__5,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style__5_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer__5);
+        map.addLayer(layer__5);
         var baseMaps = {};
         var overlaysTree = [
-            {label: 'LU45<br /><table><tr><td style="text-align: center;"><img src="legend/LU45_3_ถนน0.png" /></td><td>ถนน</td></tr><tr><td style="text-align: center;"><img src="legend/LU45_3_ทพกอาศย1.png" /></td><td>ที่พักอาศัย</td></tr><tr><td style="text-align: center;"><img src="legend/LU45_3_ปาผลดใบ2.png" /></td><td>ป่าผลัดใบ</td></tr><tr><td style="text-align: center;"><img src="legend/LU45_3_พชไร3.png" /></td><td>พืชไร่</td></tr><tr><td style="text-align: center;"><img src="legend/LU45_3_พนทของมลนธโครงการหลวง4.png" /></td><td>พื้นที่ของมูลนิธิโครงการหลวง</td></tr><tr><td style="text-align: center;"><img src="legend/LU45_3_พนทลม5.png" /></td><td>พื้นที่ลุ่ม</td></tr><tr><td style="text-align: center;"><img src="legend/LU45_3_ไมผล6.png" /></td><td>ไม้ผล</td></tr><tr><td style="text-align: center;"><img src="legend/LU45_3_ไมยนตน7.png" /></td><td>ไม้ยืนต้น</td></tr><tr><td style="text-align: center;"><img src="legend/LU45_3_สถานทราชการ8.png" /></td><td>สถานที่ราชการ</td></tr><tr><td style="text-align: center;"><img src="legend/LU45_3_สถานทสำคญทางศาสนา9.png" /></td><td>สถานที่สำคัญทางศาสนา</td></tr><tr><td style="text-align: center;"><img src="legend/LU45_3_สถานศกษา10.png" /></td><td>สถานศึกษา</td></tr><tr><td style="text-align: center;"><img src="legend/LU45_3_สถานอนามย11.png" /></td><td>สถานีอนามัย</td></tr><tr><td style="text-align: center;"><img src="legend/LU45_3_แหลงนำทสรางขน12.png" /></td><td>แหล่งน้ำที่สร้างขึ้น</td></tr><tr><td style="text-align: center;"><img src="legend/LU45_3_อนๆ13.png" /></td><td>อื่นๆ</td></tr><tr><td style="text-align: center;"><img src="legend/LU45_3_14.png" /></td><td></td></tr></table>', layer: layer_LU45_3},
-            {label: 'LU57<br /><table><tr><td style="text-align: center;"><img src="legend/LU57_2_ถนน0.png" /></td><td>ถนน</td></tr><tr><td style="text-align: center;"><img src="legend/LU57_2_ทพกอาศย1.png" /></td><td>ที่พักอาศัย</td></tr><tr><td style="text-align: center;"><img src="legend/LU57_2_ปาผลดใบ2.png" /></td><td>ป่าผลัดใบ</td></tr><tr><td style="text-align: center;"><img src="legend/LU57_2_พชไร3.png" /></td><td>พืชไร่</td></tr><tr><td style="text-align: center;"><img src="legend/LU57_2_พนทของมลนธโครงการหลวง4.png" /></td><td>พื้นที่ของมูลนิธิโครงการหลวง</td></tr><tr><td style="text-align: center;"><img src="legend/LU57_2_พนทลม5.png" /></td><td>พื้นที่ลุ่ม</td></tr><tr><td style="text-align: center;"><img src="legend/LU57_2_ไมผล6.png" /></td><td>ไม้ผล</td></tr><tr><td style="text-align: center;"><img src="legend/LU57_2_ไมยนตน7.png" /></td><td>ไม้ยืนต้น</td></tr><tr><td style="text-align: center;"><img src="legend/LU57_2_สถานทราชการ8.png" /></td><td>สถานที่ราชการ</td></tr><tr><td style="text-align: center;"><img src="legend/LU57_2_สถานทสำคญทางศาสนา9.png" /></td><td>สถานที่สำคัญทางศาสนา</td></tr><tr><td style="text-align: center;"><img src="legend/LU57_2_สถานศกษา10.png" /></td><td>สถานศึกษา</td></tr><tr><td style="text-align: center;"><img src="legend/LU57_2_สถานอนามย11.png" /></td><td>สถานีอนามัย</td></tr><tr><td style="text-align: center;"><img src="legend/LU57_2_แหลงนำทสรางขน12.png" /></td><td>แหล่งน้ำที่สร้างขึ้น</td></tr><tr><td style="text-align: center;"><img src="legend/LU57_2_อนๆ13.png" /></td><td>อื่นๆ</td></tr><tr><td style="text-align: center;"><img src="legend/LU57_2_14.png" /></td><td></td></tr></table>', layer: layer_LU57_2},
-            {label: 'LU66<br /><table><tr><td style="text-align: center;"><img src="legend/LU66_1_ถนน0.png" /></td><td>ถนน</td></tr><tr><td style="text-align: center;"><img src="legend/LU66_1_ทพกอาศย1.png" /></td><td>ที่พักอาศัย</td></tr><tr><td style="text-align: center;"><img src="legend/LU66_1_ปาผลดใบ2.png" /></td><td>ป่าผลัดใบ</td></tr><tr><td style="text-align: center;"><img src="legend/LU66_1_พชไร3.png" /></td><td>พืชไร่</td></tr><tr><td style="text-align: center;"><img src="legend/LU66_1_พนทของมลนธโครงการหลวง4.png" /></td><td>พื้นที่ของมูลนิธิโครงการหลวง</td></tr><tr><td style="text-align: center;"><img src="legend/LU66_1_พนทลม5.png" /></td><td>พื้นที่ลุ่ม</td></tr><tr><td style="text-align: center;"><img src="legend/LU66_1_ไมผล6.png" /></td><td>ไม้ผล</td></tr><tr><td style="text-align: center;"><img src="legend/LU66_1_ไมยนตน7.png" /></td><td>ไม้ยืนต้น</td></tr><tr><td style="text-align: center;"><img src="legend/LU66_1_สถานทราชการ8.png" /></td><td>สถานที่ราชการ</td></tr><tr><td style="text-align: center;"><img src="legend/LU66_1_สถานทสำคญทางศาสนา9.png" /></td><td>สถานที่สำคัญทางศาสนา</td></tr><tr><td style="text-align: center;"><img src="legend/LU66_1_สถานศกษา10.png" /></td><td>สถานศึกษา</td></tr><tr><td style="text-align: center;"><img src="legend/LU66_1_สถานอนามย11.png" /></td><td>สถานีอนามัย</td></tr><tr><td style="text-align: center;"><img src="legend/LU66_1_แหลงนำทสรางขน12.png" /></td><td>แหล่งน้ำที่สร้างขึ้น</td></tr><tr><td style="text-align: center;"><img src="legend/LU66_1_อนๆ13.png" /></td><td>อื่นๆ</td></tr><tr><td style="text-align: center;"><img src="legend/LU66_1_อตสาหกรรม14.png" /></td><td>อุตสาหกรรม</td></tr><tr><td style="text-align: center;"><img src="legend/LU66_1_15.png" /></td><td></td></tr></table>', layer: layer_LU66_1},
+            {label: 'หมู่บ้าน<br /><table><tr><td style="text-align: center;"><img src="legend/_5_บานแซแล0.png" /></td><td>บ้านแซแล</td></tr><tr><td style="text-align: center;"><img src="legend/_5_บานรนหลวง1.png" /></td><td>บ้านรินหลวง</td></tr><tr><td style="text-align: center;"><img src="legend/_5_บานหนองเขยว2.png" /></td><td>บ้านหนองเขียว</td></tr><tr><td style="text-align: center;"><img src="legend/_5_บานหนองเขยวคะฉน3.png" /></td><td>บ้านหนองเขียวคะฉิ่น</td></tr><tr><td style="text-align: center;"><img src="legend/_5_บานหนองเขยวลวะ4.png" /></td><td>บ้านหนองเขียวลัวะ</td></tr><tr><td style="text-align: center;"><img src="legend/_5_บานหนองววเแดง5.png" /></td><td>บ้านหนองวัวเแดง</td></tr><tr><td style="text-align: center;"><img src="legend/_5_บานอรโณทย6.png" /></td><td>บ้านอรุโณทัย</td></tr><tr><td style="text-align: center;"><img src="legend/_5_บานอาขา7.png" /></td><td>บ้านอาข่า</td></tr><tr><td style="text-align: center;"><img src="legend/_5_8.png" /></td><td></td></tr></table>', layer: layer__5},
+            {label: '<img src="legend/_4.png" /> ถนน', layer: layer__4},
+            {label: 'การใช้ที่ดินปี2545<br /><table><tr><td style="text-align: center;"><img src="legend/2545_3_ถนน0.png" /></td><td>ถนน</td></tr><tr><td style="text-align: center;"><img src="legend/2545_3_ทพกอาศย1.png" /></td><td>ที่พักอาศัย</td></tr><tr><td style="text-align: center;"><img src="legend/2545_3_ปาผลดใบ2.png" /></td><td>ป่าผลัดใบ</td></tr><tr><td style="text-align: center;"><img src="legend/2545_3_พชไร3.png" /></td><td>พืชไร่</td></tr><tr><td style="text-align: center;"><img src="legend/2545_3_พนทของมลนธโครงการหลวง4.png" /></td><td>พื้นที่ของมูลนิธิโครงการหลวง</td></tr><tr><td style="text-align: center;"><img src="legend/2545_3_พนทลม5.png" /></td><td>พื้นที่ลุ่ม</td></tr><tr><td style="text-align: center;"><img src="legend/2545_3_ไมผล6.png" /></td><td>ไม้ผล</td></tr><tr><td style="text-align: center;"><img src="legend/2545_3_ไมยนตน7.png" /></td><td>ไม้ยืนต้น</td></tr><tr><td style="text-align: center;"><img src="legend/2545_3_สถานทราชการ8.png" /></td><td>สถานที่ราชการ</td></tr><tr><td style="text-align: center;"><img src="legend/2545_3_สถานทสำคญทางศาสนา9.png" /></td><td>สถานที่สำคัญทางศาสนา</td></tr><tr><td style="text-align: center;"><img src="legend/2545_3_สถานศกษา10.png" /></td><td>สถานศึกษา</td></tr><tr><td style="text-align: center;"><img src="legend/2545_3_สถานอนามย11.png" /></td><td>สถานีอนามัย</td></tr><tr><td style="text-align: center;"><img src="legend/2545_3_แหลงนำทสรางขน12.png" /></td><td>แหล่งน้ำที่สร้างขึ้น</td></tr><tr><td style="text-align: center;"><img src="legend/2545_3_อนๆ13.png" /></td><td>อื่นๆ</td></tr><tr><td style="text-align: center;"><img src="legend/2545_3_14.png" /></td><td></td></tr></table>', layer: layer_2545_3},
+            {label: 'การใช้ที่ดีปี2557<br /><table><tr><td style="text-align: center;"><img src="legend/2557_2_ถนน0.png" /></td><td>ถนน</td></tr><tr><td style="text-align: center;"><img src="legend/2557_2_ทพกอาศย1.png" /></td><td>ที่พักอาศัย</td></tr><tr><td style="text-align: center;"><img src="legend/2557_2_ปาผลดใบ2.png" /></td><td>ป่าผลัดใบ</td></tr><tr><td style="text-align: center;"><img src="legend/2557_2_พชไร3.png" /></td><td>พืชไร่</td></tr><tr><td style="text-align: center;"><img src="legend/2557_2_พนทของมลนธโครงการหลวง4.png" /></td><td>พื้นที่ของมูลนิธิโครงการหลวง</td></tr><tr><td style="text-align: center;"><img src="legend/2557_2_พนทลม5.png" /></td><td>พื้นที่ลุ่ม</td></tr><tr><td style="text-align: center;"><img src="legend/2557_2_ไมผล6.png" /></td><td>ไม้ผล</td></tr><tr><td style="text-align: center;"><img src="legend/2557_2_ไมยนตน7.png" /></td><td>ไม้ยืนต้น</td></tr><tr><td style="text-align: center;"><img src="legend/2557_2_สถานทราชการ8.png" /></td><td>สถานที่ราชการ</td></tr><tr><td style="text-align: center;"><img src="legend/2557_2_สถานทสำคญทางศาสนา9.png" /></td><td>สถานที่สำคัญทางศาสนา</td></tr><tr><td style="text-align: center;"><img src="legend/2557_2_สถานศกษา10.png" /></td><td>สถานศึกษา</td></tr><tr><td style="text-align: center;"><img src="legend/2557_2_สถานอนามย11.png" /></td><td>สถานีอนามัย</td></tr><tr><td style="text-align: center;"><img src="legend/2557_2_แหลงนำทสรางขน12.png" /></td><td>แหล่งน้ำที่สร้างขึ้น</td></tr><tr><td style="text-align: center;"><img src="legend/2557_2_อนๆ13.png" /></td><td>อื่นๆ</td></tr><tr><td style="text-align: center;"><img src="legend/2557_2_14.png" /></td><td></td></tr></table>', layer: layer_2557_2},
+            {label: 'การใช้ที่ดินปี2566<br /><table><tr><td style="text-align: center;"><img src="legend/2566_1_ถนน0.png" /></td><td>ถนน</td></tr><tr><td style="text-align: center;"><img src="legend/2566_1_ทพกอาศย1.png" /></td><td>ที่พักอาศัย</td></tr><tr><td style="text-align: center;"><img src="legend/2566_1_ปาผลดใบ2.png" /></td><td>ป่าผลัดใบ</td></tr><tr><td style="text-align: center;"><img src="legend/2566_1_พชไร3.png" /></td><td>พืชไร่</td></tr><tr><td style="text-align: center;"><img src="legend/2566_1_พนทของมลนธโครงการหลวง4.png" /></td><td>พื้นที่ของมูลนิธิโครงการหลวง</td></tr><tr><td style="text-align: center;"><img src="legend/2566_1_พนทลม5.png" /></td><td>พื้นที่ลุ่ม</td></tr><tr><td style="text-align: center;"><img src="legend/2566_1_ไมผล6.png" /></td><td>ไม้ผล</td></tr><tr><td style="text-align: center;"><img src="legend/2566_1_ไมยนตน7.png" /></td><td>ไม้ยืนต้น</td></tr><tr><td style="text-align: center;"><img src="legend/2566_1_สถานทราชการ8.png" /></td><td>สถานที่ราชการ</td></tr><tr><td style="text-align: center;"><img src="legend/2566_1_สถานทสำคญทางศาสนา9.png" /></td><td>สถานที่สำคัญทางศาสนา</td></tr><tr><td style="text-align: center;"><img src="legend/2566_1_สถานศกษา10.png" /></td><td>สถานศึกษา</td></tr><tr><td style="text-align: center;"><img src="legend/2566_1_สถานอนามย11.png" /></td><td>สถานีอนามัย</td></tr><tr><td style="text-align: center;"><img src="legend/2566_1_แหลงนำทสรางขน12.png" /></td><td>แหล่งน้ำที่สร้างขึ้น</td></tr><tr><td style="text-align: center;"><img src="legend/2566_1_อนๆ13.png" /></td><td>อื่นๆ</td></tr><tr><td style="text-align: center;"><img src="legend/2566_1_อตสาหกรรม14.png" /></td><td>อุตสาหกรรม</td></tr><tr><td style="text-align: center;"><img src="legend/2566_1_15.png" /></td><td></td></tr></table>', layer: layer_2566_1},
             {label: "google satellite", layer: layer_googlesatellite_0},]
         var lay = L.control.layers.tree(null, overlaysTree,{
             //namedToggle: true,
