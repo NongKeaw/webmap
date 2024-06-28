@@ -1,0 +1,3737 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/L.Control.Layers.Tree.css">
+        <link rel="stylesheet" href="css/qgis2web.css">
+        <link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/L.Control.Layers.Tree.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="data/High_level_1.js"></script>
+        <script src="data/Royal_Project_Boundary_2.js"></script>
+        <script src="data/rainfall_3.js"></script>
+        <script src="data/preserved_forest_4.js"></script>
+        <script src="data/park_5.js"></script>
+        <script src="data/Muang_na_boundary_6.js"></script>
+        <script src="data/Landuse_7.js"></script>
+        <script src="data/stream_8.js"></script>
+        <script src="data/road_9.js"></script>
+        <script src="data/watertang_waterwell_10.js"></script>
+        <script src="data/interested_point_11.js"></script>
+        <script src="data/village_12.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+            highlightLayer.openPopup();
+        }
+        var map = L.map('map', {
+            zoomControl:false, maxZoom:28, minZoom:1
+        }).fitBounds([[19.234664676978237,98.25999625708029],[20.005223879892064,99.7595375315211]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        // remove popup's row if "visible-with-data"
+        function removeEmptyRowsFromPopupContent(content, feature) {
+         var tempDiv = document.createElement('div');
+         tempDiv.innerHTML = content;
+         var rows = tempDiv.querySelectorAll('tr');
+         for (var i = 0; i < rows.length; i++) {
+             var td = rows[i].querySelector('td.visible-with-data');
+             var key = td ? td.id : '';
+             if (td && td.classList.contains('visible-with-data') && feature.properties[key] == null) {
+                 rows[i].parentNode.removeChild(rows[i]);
+             }
+         }
+         return tempDiv.innerHTML;
+        }
+        // add class to format popup if it contains media
+		function addClassToPopupIfMedia(content, popup) {
+			var tempDiv = document.createElement('div');
+			tempDiv.innerHTML = content;
+			if (tempDiv.querySelector('td img')) {
+				popup._contentNode.classList.add('media');
+					// Delay to force the redraw
+					setTimeout(function() {
+						popup.update();
+					}, 10);
+			} else {
+				popup._contentNode.classList.remove('media');
+			}
+		}
+        var zoomControl = L.control.zoom({
+            position: 'topleft'
+        }).addTo(map);
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0].innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0].className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_googlesatellite_0');
+        map.getPane('pane_googlesatellite_0').style.zIndex = 400;
+        var layer_googlesatellite_0 = L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+            pane: 'pane_googlesatellite_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 18
+        });
+        layer_googlesatellite_0;
+        map.addLayer(layer_googlesatellite_0);
+        function pop_High_level_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Id'] !== null ? autolinker.link(feature.properties['Id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['gridcode'] !== null ? autolinker.link(feature.properties['gridcode'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td class="visible-with-data" id="Desct"colspan="2"><strong>Desct</strong><br />' + (feature.properties['Desct'] !== null ? autolinker.link(feature.properties['Desct'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_High_level_1_0(feature) {
+            switch(String(feature.properties['Desct'])) {
+                case '0-100 เมตร':
+                    return {
+                pane: 'pane_High_level_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(104,213,87,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '100-200 เมตร':
+                    return {
+                pane: 'pane_High_level_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(231,47,30,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '1000-1100 เมตร':
+                    return {
+                pane: 'pane_High_level_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(82,226,149,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '1100-1200 เมตร':
+                    return {
+                pane: 'pane_High_level_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(150,126,208,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '1200-1300 เมตร':
+                    return {
+                pane: 'pane_High_level_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(30,33,212,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '1300-1400 เมตร':
+                    return {
+                pane: 'pane_High_level_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(130,226,56,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '1400-1500 เมคร':
+                    return {
+                pane: 'pane_High_level_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(228,41,138,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '1500-1600 เมตร':
+                    return {
+                pane: 'pane_High_level_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(22,154,231,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '1600-1700 เมตร':
+                    return {
+                pane: 'pane_High_level_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(94,200,175,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '1700-1800 เมตร':
+                    return {
+                pane: 'pane_High_level_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(195,231,98,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '1800-1900 เมตร':
+                    return {
+                pane: 'pane_High_level_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(138,240,155,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '200-300 เมตร':
+                    return {
+                pane: 'pane_High_level_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(169,101,218,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '300-400 เมตร':
+                    return {
+                pane: 'pane_High_level_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(222,135,154,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '500-600 เมตร':
+                    return {
+                pane: 'pane_High_level_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(230,128,211,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '600-700 เมตร':
+                    return {
+                pane: 'pane_High_level_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(209,205,97,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '700-800 เมตร':
+                    return {
+                pane: 'pane_High_level_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(236,181,71,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '800-900 เมตร':
+                    return {
+                pane: 'pane_High_level_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(64,191,200,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '900-1000 เมตร':
+                    return {
+                pane: 'pane_High_level_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(221,164,129,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'มากกว่า 1900 เมตร':
+                    return {
+                pane: 'pane_High_level_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(103,148,238,1.0)',
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_High_level_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(212,93,228,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_High_level_1');
+        map.getPane('pane_High_level_1').style.zIndex = 401;
+        map.getPane('pane_High_level_1').style['mix-blend-mode'] = 'normal';
+        var layer_High_level_1 = new L.geoJson(json_High_level_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_High_level_1',
+            layerName: 'layer_High_level_1',
+            pane: 'pane_High_level_1',
+            onEachFeature: pop_High_level_1,
+            style: style_High_level_1_0,
+        });
+        bounds_group.addLayer(layer_High_level_1);
+        map.addLayer(layer_High_level_1);
+        function pop_Royal_Project_Boundary_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Area'] !== null ? autolinker.link(feature.properties['Area'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['RAI'] !== null ? autolinker.link(feature.properties['RAI'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td class="visible-with-data" id="Name_1"colspan="2"><strong>Name_1</strong><br />' + (feature.properties['Name_1'] !== null ? autolinker.link(feature.properties['Name_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_Royal_Project_Boundary_2_0(feature) {
+            switch(String(feature.properties['Name_1'])) {
+                case 'ศูนย์พัฒนาโครงการหลวงแกน้อย':
+                    return {
+                pane: 'pane_Royal_Project_Boundary_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(55,215,221,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ศูนย์พัฒนาโครงการหลวงหนองเขียว':
+                    return {
+                pane: 'pane_Royal_Project_Boundary_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(203,35,197,1.0)',
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_Royal_Project_Boundary_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(207,213,31,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Royal_Project_Boundary_2');
+        map.getPane('pane_Royal_Project_Boundary_2').style.zIndex = 402;
+        map.getPane('pane_Royal_Project_Boundary_2').style['mix-blend-mode'] = 'normal';
+        var layer_Royal_Project_Boundary_2 = new L.geoJson(json_Royal_Project_Boundary_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Royal_Project_Boundary_2',
+            layerName: 'layer_Royal_Project_Boundary_2',
+            pane: 'pane_Royal_Project_Boundary_2',
+            onEachFeature: pop_Royal_Project_Boundary_2,
+            style: style_Royal_Project_Boundary_2_0,
+        });
+        bounds_group.addLayer(layer_Royal_Project_Boundary_2);
+        map.addLayer(layer_Royal_Project_Boundary_2);
+        function pop_rainfall_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OBJECTID'] !== null ? autolinker.link(feature.properties['OBJECTID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td class="visible-with-data" id="Descript"colspan="2"><strong>Descript</strong><br />' + (feature.properties['Descript'] !== null ? autolinker.link(feature.properties['Descript'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Shape_Leng'] !== null ? autolinker.link(feature.properties['Shape_Leng'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Shape_Area'] !== null ? autolinker.link(feature.properties['Shape_Area'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_rainfall_3_0(feature) {
+            switch(String(feature.properties['Descript'])) {
+                case 'ปริมาณฝน 1000-1300 มม/ปี':
+                    return {
+                pane: 'pane_rainfall_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(225,111,45,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ปริมาณฝนน้อยกว่า 1000 มม/ปี':
+                    return {
+                pane: 'pane_rainfall_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(195,66,212,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ปริมาณฝนมากกว่า 1300 มม/ปี':
+                    return {
+                pane: 'pane_rainfall_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(61,225,36,1.0)',
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_rainfall_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(13,138,211,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_rainfall_3');
+        map.getPane('pane_rainfall_3').style.zIndex = 403;
+        map.getPane('pane_rainfall_3').style['mix-blend-mode'] = 'normal';
+        var layer_rainfall_3 = new L.geoJson(json_rainfall_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_rainfall_3',
+            layerName: 'layer_rainfall_3',
+            pane: 'pane_rainfall_3',
+            onEachFeature: pop_rainfall_3,
+            style: style_rainfall_3_0,
+        });
+        bounds_group.addLayer(layer_rainfall_3);
+        map.addLayer(layer_rainfall_3);
+        function pop_preserved_forest_4(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FID_final_'] !== null ? autolinker.link(feature.properties['FID_final_'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NRF_CODE'] !== null ? autolinker.link(feature.properties['NRF_CODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td class="visible-with-data" id="FR_NAME"colspan="2"><strong>FR_NAME</strong><br />' + (feature.properties['FR_NAME'] !== null ? autolinker.link(feature.properties['FR_NAME'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Province'] !== null ? autolinker.link(feature.properties['Province'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['สจป'] !== null ? autolinker.link(feature.properties['สจป'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ภาค'] !== null ? autolinker.link(feature.properties['ภาค'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Typ'] !== null ? autolinker.link(feature.properties['Typ'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Area'] !== null ? autolinker.link(feature.properties['Area'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_preserved_forest_4_0(feature) {
+            switch(String(feature.properties['FR_NAME'])) {
+                case 'ป่าเชียงดาว':
+                    return {
+                pane: 'pane_preserved_forest_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(82,91,217,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ป่าลุ่มน้ำแม่ฝาง':
+                    return {
+                pane: 'pane_preserved_forest_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(231,63,75,1.0)',
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_preserved_forest_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(30,217,17,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_preserved_forest_4');
+        map.getPane('pane_preserved_forest_4').style.zIndex = 404;
+        map.getPane('pane_preserved_forest_4').style['mix-blend-mode'] = 'normal';
+        var layer_preserved_forest_4 = new L.geoJson(json_preserved_forest_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_preserved_forest_4',
+            layerName: 'layer_preserved_forest_4',
+            pane: 'pane_preserved_forest_4',
+            onEachFeature: pop_preserved_forest_4,
+            style: style_preserved_forest_4_0,
+        });
+        bounds_group.addLayer(layer_preserved_forest_4);
+        map.addLayer(layer_preserved_forest_4);
+        function pop_park_5(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FID_Forest'] !== null ? autolinker.link(feature.properties['FID_Forest'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FID_Fore_1'] !== null ? autolinker.link(feature.properties['FID_Fore_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['AREA'] !== null ? autolinker.link(feature.properties['AREA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PERIMETER'] !== null ? autolinker.link(feature.properties['PERIMETER'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Type_e'] !== null ? autolinker.link(feature.properties['Type_e'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Type_th'] !== null ? autolinker.link(feature.properties['Type_th'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Name_TH'] !== null ? autolinker.link(feature.properties['Name_TH'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td class="visible-with-data" id="Name"colspan="2"><strong>Name</strong><br />' + (feature.properties['Name'] !== null ? autolinker.link(feature.properties['Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['UTMZone'] !== null ? autolinker.link(feature.properties['UTMZone'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PARO'] !== null ? autolinker.link(feature.properties['PARO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PARO_NAME'] !== null ? autolinker.link(feature.properties['PARO_NAME'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_park_5_0() {
+            return {
+                pane: 'pane_park_5',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(15,248,50,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_park_5');
+        map.getPane('pane_park_5').style.zIndex = 405;
+        map.getPane('pane_park_5').style['mix-blend-mode'] = 'normal';
+        var layer_park_5 = new L.geoJson(json_park_5, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_park_5',
+            layerName: 'layer_park_5',
+            pane: 'pane_park_5',
+            onEachFeature: pop_park_5,
+            style: style_park_5_0,
+        });
+        bounds_group.addLayer(layer_park_5);
+        map.addLayer(layer_park_5);
+        function pop_Muang_na_boundary_6(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Id'] !== null ? autolinker.link(feature.properties['Id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Area'] !== null ? autolinker.link(feature.properties['Area'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Rai'] !== null ? autolinker.link(feature.properties['Rai'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td class="visible-with-data" id="TAM_NAM_T"colspan="2"><strong>TAM_NAM_T</strong><br />' + (feature.properties['TAM_NAM_T'] !== null ? autolinker.link(feature.properties['TAM_NAM_T'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['AMPCODE'] !== null ? autolinker.link(feature.properties['AMPCODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PROV_NAM_T'] !== null ? autolinker.link(feature.properties['PROV_NAM_T'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_Muang_na_boundary_6_0() {
+            return {
+                pane: 'pane_Muang_na_boundary_6',
+                opacity: 1,
+                color: 'rgba(235,9,9,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 4.0, 
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Muang_na_boundary_6');
+        map.getPane('pane_Muang_na_boundary_6').style.zIndex = 406;
+        map.getPane('pane_Muang_na_boundary_6').style['mix-blend-mode'] = 'normal';
+        var layer_Muang_na_boundary_6 = new L.geoJson(json_Muang_na_boundary_6, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Muang_na_boundary_6',
+            layerName: 'layer_Muang_na_boundary_6',
+            pane: 'pane_Muang_na_boundary_6',
+            onEachFeature: pop_Muang_na_boundary_6,
+            style: style_Muang_na_boundary_6_0,
+        });
+        bounds_group.addLayer(layer_Muang_na_boundary_6);
+        map.addLayer(layer_Muang_na_boundary_6);
+        function pop_Landuse_7(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Area'] !== null ? autolinker.link(feature.properties['Area'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FID_landus'] !== null ? autolinker.link(feature.properties['FID_landus'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Id'] !== null ? autolinker.link(feature.properties['Id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td class="visible-with-data" id="Landuse"colspan="2"><strong>Landuse</strong><br />' + (feature.properties['Landuse'] !== null ? autolinker.link(feature.properties['Landuse'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Rai'] !== null ? autolinker.link(feature.properties['Rai'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_Landuse_7_0(feature) {
+            switch(String(feature.properties['Landuse'])) {
+                case 'ถนน':
+                    return {
+                pane: 'pane_Landuse_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(128,16,220,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ที่พักอาศัย':
+                    return {
+                pane: 'pane_Landuse_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(128,224,54,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ป่าผลัดใบ':
+                    return {
+                pane: 'pane_Landuse_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(224,156,104,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'พืชไร่':
+                    return {
+                pane: 'pane_Landuse_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(228,200,73,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'พื้นที่ของมูลนิธิโครงการหลวง':
+                    return {
+                pane: 'pane_Landuse_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(48,136,203,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'พื้นที่ลุ่ม':
+                    return {
+                pane: 'pane_Landuse_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(201,219,119,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ไม้ผล':
+                    return {
+                pane: 'pane_Landuse_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(210,20,224,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ไม้ยืนต้น':
+                    return {
+                pane: 'pane_Landuse_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(113,210,142,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'สถานที่ราชการ':
+                    return {
+                pane: 'pane_Landuse_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(144,123,238,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'สถานที่สำคัญทางศาสนา':
+                    return {
+                pane: 'pane_Landuse_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(133,217,221,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'สถานศึกษา':
+                    return {
+                pane: 'pane_Landuse_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(102,128,233,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'สถานีอนามัย':
+                    return {
+                pane: 'pane_Landuse_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(229,35,25,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'แหล่งน้ำ':
+                    return {
+                pane: 'pane_Landuse_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(53,226,171,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'อื่นๆ':
+                    return {
+                pane: 'pane_Landuse_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(228,38,102,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'อุตสาหกรรม':
+                    return {
+                pane: 'pane_Landuse_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(203,84,167,1.0)',
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_Landuse_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(27,212,14,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Landuse_7');
+        map.getPane('pane_Landuse_7').style.zIndex = 407;
+        map.getPane('pane_Landuse_7').style['mix-blend-mode'] = 'normal';
+        var layer_Landuse_7 = new L.geoJson(json_Landuse_7, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Landuse_7',
+            layerName: 'layer_Landuse_7',
+            pane: 'pane_Landuse_7',
+            onEachFeature: pop_Landuse_7,
+            style: style_Landuse_7_0,
+        });
+        bounds_group.addLayer(layer_Landuse_7);
+        map.addLayer(layer_Landuse_7);
+        function pop_stream_8(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OBJECTID'] !== null ? autolinker.link(feature.properties['OBJECTID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['STR_ID'] !== null ? autolinker.link(feature.properties['STR_ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['LOCAL_NAM'] !== null ? autolinker.link(feature.properties['LOCAL_NAM'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Shape_Leng'] !== null ? autolinker.link(feature.properties['Shape_Leng'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['STR_type'] !== null ? autolinker.link(feature.properties['STR_type'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['STR_Name_T'] !== null ? autolinker.link(feature.properties['STR_Name_T'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['STR_Name_E'] !== null ? autolinker.link(feature.properties['STR_Name_E'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_stream_8_0() {
+            return {
+                pane: 'pane_stream_8',
+                opacity: 1,
+                color: 'rgba(31,34,252,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: false,
+            }
+        }
+        map.createPane('pane_stream_8');
+        map.getPane('pane_stream_8').style.zIndex = 408;
+        map.getPane('pane_stream_8').style['mix-blend-mode'] = 'normal';
+        var layer_stream_8 = new L.geoJson(json_stream_8, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_stream_8',
+            layerName: 'layer_stream_8',
+            pane: 'pane_stream_8',
+            onEachFeature: pop_stream_8,
+            style: style_stream_8_0,
+        });
+        bounds_group.addLayer(layer_stream_8);
+        map.addLayer(layer_stream_8);
+        function pop_road_9(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['name'] !== null ? autolinker.link(feature.properties['name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NO_LANE'] !== null ? autolinker.link(feature.properties['NO_LANE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['WIDTH'] !== null ? autolinker.link(feature.properties['WIDTH'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ROAD_TYPE'] !== null ? autolinker.link(feature.properties['ROAD_TYPE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['DESC_R'] !== null ? autolinker.link(feature.properties['DESC_R'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Id'] !== null ? autolinker.link(feature.properties['Id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Length'] !== null ? autolinker.link(feature.properties['Length'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Type'] !== null ? autolinker.link(feature.properties['Type'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TRANS_ID'] !== null ? autolinker.link(feature.properties['TRANS_ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TRNS_TYP'] !== null ? autolinker.link(feature.properties['TRNS_TYP'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TRNS_NM_T'] !== null ? autolinker.link(feature.properties['TRNS_NM_T'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TRNS_NM_E'] !== null ? autolinker.link(feature.properties['TRNS_NM_E'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TRNS_GR'] !== null ? autolinker.link(feature.properties['TRNS_GR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TRNS_GR_T'] !== null ? autolinker.link(feature.properties['TRNS_GR_T'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TRNS_GR_E'] !== null ? autolinker.link(feature.properties['TRNS_GR_E'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_road_9_0() {
+            return {
+                pane: 'pane_road_9',
+                opacity: 1,
+                color: 'rgba(16,11,9,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: false,
+            }
+        }
+        map.createPane('pane_road_9');
+        map.getPane('pane_road_9').style.zIndex = 409;
+        map.getPane('pane_road_9').style['mix-blend-mode'] = 'normal';
+        var layer_road_9 = new L.geoJson(json_road_9, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_road_9',
+            layerName: 'layer_road_9',
+            pane: 'pane_road_9',
+            onEachFeature: pop_road_9,
+            style: style_road_9_0,
+        });
+        bounds_group.addLayer(layer_road_9);
+        map.addLayer(layer_road_9);
+        function pop_watertang_waterwell_10(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Name'] !== null ? autolinker.link(feature.properties['Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Number'] !== null ? autolinker.link(feature.properties['Number'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Localname'] !== null ? autolinker.link(feature.properties['Localname'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Status'] !== null ? autolinker.link(feature.properties['Status'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Capacity'] !== null ? autolinker.link(feature.properties['Capacity'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Utiliser'] !== null ? autolinker.link(feature.properties['Utiliser'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Owner'] !== null ? autolinker.link(feature.properties['Owner'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Objective'] !== null ? autolinker.link(feature.properties['Objective'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ETC'] !== null ? autolinker.link(feature.properties['ETC'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['POINT_X'] !== null ? autolinker.link(feature.properties['POINT_X'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['POINT_Y'] !== null ? autolinker.link(feature.properties['POINT_Y'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Day'] !== null ? autolinker.link(feature.properties['Day'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NewUtilize'] !== null ? autolinker.link(feature.properties['NewUtilize'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Lev_well'] !== null ? autolinker.link(feature.properties['Lev_well'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ID'] !== null ? autolinker.link(feature.properties['ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Describe'] !== null ? autolinker.link(feature.properties['Describe'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Length'] !== null ? autolinker.link(feature.properties['Length'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Width'] !== null ? autolinker.link(feature.properties['Width'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['High'] !== null ? autolinker.link(feature.properties['High'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Radius'] !== null ? autolinker.link(feature.properties['Radius'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['UNIT'] !== null ? autolinker.link(feature.properties['UNIT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Benefit'] !== null ? autolinker.link(feature.properties['Benefit'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Note'] !== null ? autolinker.link(feature.properties['Note'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OID_'] !== null ? autolinker.link(feature.properties['OID_'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FolderPath'] !== null ? autolinker.link(feature.properties['FolderPath'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SymbolID'] !== null ? autolinker.link(feature.properties['SymbolID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['AltMode'] !== null ? autolinker.link(feature.properties['AltMode'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Base'] !== null ? autolinker.link(feature.properties['Base'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Snippet'] !== null ? autolinker.link(feature.properties['Snippet'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PopupInfo'] !== null ? autolinker.link(feature.properties['PopupInfo'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['HasLabel'] !== null ? autolinker.link(feature.properties['HasLabel'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['LabelID'] !== null ? autolinker.link(feature.properties['LabelID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_watertang_waterwell_10_0() {
+            return {
+                pane: 'pane_watertang_waterwell_10',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(13,69,253,1.0)',
+                interactive: false,
+            }
+        }
+        map.createPane('pane_watertang_waterwell_10');
+        map.getPane('pane_watertang_waterwell_10').style.zIndex = 410;
+        map.getPane('pane_watertang_waterwell_10').style['mix-blend-mode'] = 'normal';
+        var layer_watertang_waterwell_10 = new L.geoJson(json_watertang_waterwell_10, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_watertang_waterwell_10',
+            layerName: 'layer_watertang_waterwell_10',
+            pane: 'pane_watertang_waterwell_10',
+            onEachFeature: pop_watertang_waterwell_10,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_watertang_waterwell_10_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_watertang_waterwell_10);
+        map.addLayer(layer_watertang_waterwell_10);
+        function pop_interested_point_11(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OID_'] !== null ? autolinker.link(feature.properties['OID_'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td class="visible-with-data" id="Name"colspan="2"><strong>Name</strong><br />' + (feature.properties['Name'] !== null ? autolinker.link(feature.properties['Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_interested_point_11_0(feature) {
+            switch(String(feature.properties['Name'])) {
+                default:
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '145 cafe(大谷地）':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '7-Eleven สาขา บ้านอรุโณทัย 2 (อ.เชียงดาว) (13211)':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Arunothai Village (大谷地村莊)':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Baan Famui':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'BOLAN Coffee':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Coffee art & ก๋วยเตี๋ยวบ้านเฮา':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Crepe House เครปซอยวัด':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Koufu Mala BBQ':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Lahu Shehleh Numru Church':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'LAWA ละว้า Coffee':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Nawhai country and homestay':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Pha Dang Mountain View Resort':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'S.P บ้านสวน':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'กันยาลองรีสอร์ท':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'กาแฟสดไร่ช่อลดา':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'กุ้งบนดอย เชียงดาว':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ไกวัล ณ เชียงดาว Kaiwan At Chiangdao':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ครัวชมธาร':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'คริสจักรบ้านนาหวาย Nawai Church':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'คริสตจักรคะฉิ่นแบ๊บติสต์ บ้านใหม่สามัคคี (ฺBKBC)':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'คริสตจักรชีวิตนิรันดร์บ้านหนองเขียว (โบสถ์ 5)':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'คริสตจักรชีวิตนิรันดร์บ้านห้วยถ้ำแกน้อย':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'คริสตจักรบ้านใหม่สามัคคี':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'คริสตจักรบ้านใหม่สามัคคี(อาข่า)':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'คริสตจักรละว้าหนองเขียว เชียงดาว':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'คริสตจักรสัมพันธ์ลาหู่แซแลหนองเขียวโบสถ์ 4':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'คริสตจักรหนองเขียวโบสถ์ 2':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'คลินิกหมอแทนคุณ บ้านอรุโณทัย':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'โครงการหมู่บ้านป่าไม้แผนใหม่บ้านนาศิริ':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'จักรพรรดิ์กาแฟอารมณ์ดี Jakkraphat Coffee Aromdee':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ชิวชิวหมูกระทะบ้านอรุโณทัย':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'เชียงดาวธรรมชาติ CAMP':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ฐานปฏิบัติการบ้านอรุโณทัย กองร้อยทหารม้าที่2 กองบังคับการควบคุมที่1 หน่วยเฉพาะกิจกรมทหาร':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'เด๋อ cafe':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ถ้ำมหาปุญโญ':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ที่ราบสูง คาเฟ่':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'น้ำตกศรีสังวาลย์':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'บ่อน้ำร้อนโป่งอาง':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'บ้าน Yen Lo นั่งชิลล์':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'บ้านสวนนํ้าโอเชี่ยนปาร์ค':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'บ้านสวนริมธารนาหวาย':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ม่อนป้อ ผ่อดาว':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ร้าน ป.ปาณิดา เป็ดย่าง':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ร้าน ฟองชา':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ร้านก๋วยเตี๋ยว-ข้าวเฟิน':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ร้านกันเอง ทะเลเผา':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ร้านกาแฟ swamp':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ร้านกาแฟ โครงการหลวงหนองเขียว':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ร้านคุณแขก บ้านโละป่าหาญ':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ร้านชามุก&ก๋วยเตี๋ยวเก๊ามะขาม':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ร้านโชคดี นาหวาย':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ร้านต้าหยงบะหมี่เกี๊ยวยูนนานSince 1976':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ร้านมนต์นภา คาราโอเกะ':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ร้านลีซอยอง':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ร้านหมี่สด เชี่ยว หลี่':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ร้านอาหารคุณแดง':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ร้านอาหารยูนาน':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ร้านอาหารอีสานทีเด็ดตำแซ่บ':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ร้านอาหารอู่บวร บ้านโละป่าหาญ':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านแกน้อย':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านนาหวาย':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านอรุโณทัย':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'โรงเรียนแกน้อยศึกษา':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'โรงเรียนโครงการหลวงแกน้อย':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'โรงเรียนตำรวจตระเวนชายแดนเฉลิมพระเกียรติ บ้านแกน้อย':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'โรงเรียนตำรวจตระเวนชายแดนบ้านหนองแขม (สาขาบำรุงที่ 107)':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'โรงเรียนบ้านนาหวาย':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'โรงเรียนบ้านป่าบง':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'โรงเรียนบ้านเมืองนะ':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'โรงเรียนบ้านรินหลวง':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'โรงเรียนบ้านหนองเขียว':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'โรงเรียนบ้านอรุโณทัย':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'โรงเรียนเบญจม ๒ บ้านน้ำรู':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'โรงเรียนภาษาจีนหัวซิง : บ้านอรุโณทัย':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'โรงเรียนศรีอรุโณทัยเนอร์สเซอรี':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'โรงเรียนสอนภาษาจีนเจี้ยวเหรียญเชียงใหม่/清迈教联高级中学':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'โรงเรียนสอนภาษาจีนยู่ยิงบ้านไชยา':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'โรงเรียนหัวชิง':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'โรงเรียนอนุบาลเทศบาลตำบลเมืองนะ':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'โรงเรียนอรุโณทัยวิทยาคม':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ล้งชาใต้':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'วรรณทาท่าน้ำ':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'วัดดอยมังกรทอง อรุโณทัย':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'วัดนาหวาย':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'วัดน้ำรู':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'วัดพุทธพรหมปัญโญ(วัดถ้ำเมืองนะ)หลวงตาม้า':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'วัดม่วงคำโป่งอาง':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'วัดโล๊ะป่าหาญ':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'วัดห้วยไส้':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'วัดใหม่ศรีรุ่งเรือง บ้านน้ำรู (วัดบน)':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'วัดอรุโณทัย':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ศูนย์พัฒนาโครงการหลวงแกน้อย':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ศูนย์พัฒนาโครงการหลวงหนองเขียว':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ศูนย์พัฒนาเด็กเล็กน้ำรู':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ศูนย์พัฒนาเด็กเล็กบ้านจองคำ':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ศูนย์พัฒนาเด็กเล็กบ้านเจียจันทร์':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ศูนย์พัฒนาเด็กเล็กบ้านนาหวาย':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ศูนย์พัฒนาเด็กเล็กบ้านรินหลวง':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ศูนย์พัฒนาเด็กเล็กบ้านโล๊ะป่าหาญ':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ศูนย์พัฒนาเด็กเล็กบ้านหนองเขียว':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ศูนย์พัฒนาเด็กเล็กบ้านอรุโณทัย':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'สถานบริการสาธารณสุขชุมชนเมืองนะ':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'สถานรับเลี้ยงเด็กเก๋อหลินฮั่น เนอสเซอรี่':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ส้มตำปูม้า ลาบ ส้า อาหารตามสั่ง':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'สวนเมืองนะแสนรัก Muengna\'s Love Garden 猛納愛情花園':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'สหกรณ์การเกษตรโครงการหลวงแกน้อย จำกัด':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'สำนักงานเทศบาลตำบลเมืองนะ':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'สำนักปฏิบัติธรรมหมื่นแสนบุญ':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'สำนักสงฆ์แกน้อย-ไชยา':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'หน่วยจัดการต้นน้ำดอยถ้วย':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'หน่วยพิทักษ์อุทยานแห่งชาติผาแดงที่ ผด.1 (เมืองนะ)':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'หมวย คาเฟ่ ท้ายซอย':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'อนัตตารามถ้ำวัว':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'อุทยานแห่งชาติผาแดง':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ฮาร์โมนี่ การ์เด้น เฮ้าส์ Hamony Garden House':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ไฮ่..ฮักห้วยเป้า @ เชียงดาว':
+                    return {
+                pane: 'pane_interested_point_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,13,67,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_interested_point_11');
+        map.getPane('pane_interested_point_11').style.zIndex = 411;
+        map.getPane('pane_interested_point_11').style['mix-blend-mode'] = 'normal';
+        var layer_interested_point_11 = new L.geoJson(json_interested_point_11, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_interested_point_11',
+            layerName: 'layer_interested_point_11',
+            pane: 'pane_interested_point_11',
+            onEachFeature: pop_interested_point_11,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_interested_point_11_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_interested_point_11);
+        map.addLayer(layer_interested_point_11);
+        function pop_village_12(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Id'] !== null ? autolinker.link(feature.properties['Id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td class="visible-with-data" id="Name"colspan="2"><strong>Name</strong><br />' + (feature.properties['Name'] !== null ? autolinker.link(feature.properties['Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_village_12_0(feature) {
+            switch(String(feature.properties['Name'])) {
+                case 'ไชยา1':
+                    return {
+                pane: 'pane_village_12',
+                interactive: true,
+            }
+                    break;
+                case 'ไชยา2':
+                    return {
+                pane: 'pane_village_12',
+                interactive: true,
+            }
+                    break;
+                case 'ไชยา5':
+                    return {
+                pane: 'pane_village_12',
+                interactive: true,
+            }
+                    break;
+                case 'ไชยา6':
+                    return {
+                pane: 'pane_village_12',
+                interactive: true,
+            }
+                    break;
+                case 'บ้านจองคำ':
+                    return {
+                pane: 'pane_village_12',
+                interactive: true,
+            }
+                    break;
+                case 'บ้านเจียจันทร์':
+                    return {
+                pane: 'pane_village_12',
+                interactive: true,
+            }
+                    break;
+                case 'บ้านไชยา3':
+                    return {
+                pane: 'pane_village_12',
+                interactive: true,
+            }
+                    break;
+                case 'บ้านไชยา4':
+                    return {
+                pane: 'pane_village_12',
+                interactive: true,
+            }
+                    break;
+                case 'บ้านแซแล':
+                    return {
+                pane: 'pane_village_12',
+                interactive: true,
+            }
+                    break;
+                case 'บ้านไทใหญ่':
+                    return {
+                pane: 'pane_village_12',
+                interactive: true,
+            }
+                    break;
+                case 'บ้านนาศิริ':
+                    return {
+                pane: 'pane_village_12',
+                interactive: true,
+            }
+                    break;
+                case 'บ้านนาหวาย':
+                    return {
+                pane: 'pane_village_12',
+                interactive: true,
+            }
+                    break;
+                case 'บ้านน้ำรู':
+                    return {
+                pane: 'pane_village_12',
+                interactive: true,
+            }
+                    break;
+                case 'บ้านป่าบงเก่า':
+                    return {
+                pane: 'pane_village_12',
+                interactive: true,
+            }
+                    break;
+                case 'บ้านโปงอาง':
+                    return {
+                pane: 'pane_village_12',
+                interactive: true,
+            }
+                    break;
+                case 'บ้านเมืองนะ':
+                    return {
+                pane: 'pane_village_12',
+                interactive: true,
+            }
+                    break;
+                case 'บ้านแม่แกน':
+                    return {
+                pane: 'pane_village_12',
+                interactive: true,
+            }
+                    break;
+                case 'บ้านรินหลวง':
+                    return {
+                pane: 'pane_village_12',
+                interactive: true,
+            }
+                    break;
+                case 'บ้านโล๊ะป่าหาญ':
+                    return {
+                pane: 'pane_village_12',
+                interactive: true,
+            }
+                    break;
+                case 'บ้านหนองเขียว':
+                    return {
+                pane: 'pane_village_12',
+                interactive: true,
+            }
+                    break;
+                case 'บ้านหนองเขียวคะฉิ่น':
+                    return {
+                pane: 'pane_village_12',
+                interactive: true,
+            }
+                    break;
+                case 'บ้านหนองเขียวลัวะ':
+                    return {
+                pane: 'pane_village_12',
+                interactive: true,
+            }
+                    break;
+                case 'บ้านหนองแขม':
+                    return {
+                pane: 'pane_village_12',
+                interactive: true,
+            }
+                    break;
+                case 'บ้านหนองวัวเแดง':
+                    return {
+                pane: 'pane_village_12',
+                interactive: true,
+            }
+                    break;
+                case 'บ้านห้วยถ้ำ':
+                    return {
+                pane: 'pane_village_12',
+                interactive: true,
+            }
+                    break;
+                case 'บ้านห้วยลึก':
+                    return {
+                pane: 'pane_village_12',
+                interactive: true,
+            }
+                    break;
+                case 'บ้านห้วยไส้':
+                    return {
+                pane: 'pane_village_12',
+                interactive: true,
+            }
+                    break;
+                case 'บ้านอรุโณทัย':
+                    return {
+                pane: 'pane_village_12',
+                interactive: true,
+            }
+                    break;
+                case 'บ้านอาข่า':
+                    return {
+                pane: 'pane_village_12',
+                interactive: true,
+            }
+                    break;
+                case 'ป่าบงใหม่':
+                    return {
+                pane: 'pane_village_12',
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_village_12',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_village_12');
+        map.getPane('pane_village_12').style.zIndex = 412;
+        map.getPane('pane_village_12').style['mix-blend-mode'] = 'normal';
+        var layer_village_12 = new L.geoJson(json_village_12, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_village_12',
+            layerName: 'layer_village_12',
+            pane: 'pane_village_12',
+            onEachFeature: pop_village_12,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_village_12_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_village_12);
+        map.addLayer(layer_village_12);
+        var baseMaps = {};
+        var overlaysTree = [
+            {label: 'village<br /><table><tr><td style="text-align: center;"><img src="legend/village_12_ไชยา10.png" /></td><td>ไชยา1</td></tr><tr><td style="text-align: center;"><img src="legend/village_12_ไชยา21.png" /></td><td>ไชยา2</td></tr><tr><td style="text-align: center;"><img src="legend/village_12_ไชยา52.png" /></td><td>ไชยา5</td></tr><tr><td style="text-align: center;"><img src="legend/village_12_ไชยา63.png" /></td><td>ไชยา6</td></tr><tr><td style="text-align: center;"><img src="legend/village_12_บานจองคำ4.png" /></td><td>บ้านจองคำ</td></tr><tr><td style="text-align: center;"><img src="legend/village_12_บานเจยจนทร5.png" /></td><td>บ้านเจียจันทร์</td></tr><tr><td style="text-align: center;"><img src="legend/village_12_บานไชยา36.png" /></td><td>บ้านไชยา3</td></tr><tr><td style="text-align: center;"><img src="legend/village_12_บานไชยา47.png" /></td><td>บ้านไชยา4</td></tr><tr><td style="text-align: center;"><img src="legend/village_12_บานแซแล8.png" /></td><td>บ้านแซแล</td></tr><tr><td style="text-align: center;"><img src="legend/village_12_บานไทใหญ9.png" /></td><td>บ้านไทใหญ่</td></tr><tr><td style="text-align: center;"><img src="legend/village_12_บานนาศร10.png" /></td><td>บ้านนาศิริ</td></tr><tr><td style="text-align: center;"><img src="legend/village_12_บานนาหวาย11.png" /></td><td>บ้านนาหวาย</td></tr><tr><td style="text-align: center;"><img src="legend/village_12_บานนำร12.png" /></td><td>บ้านน้ำรู</td></tr><tr><td style="text-align: center;"><img src="legend/village_12_บานปาบงเกา13.png" /></td><td>บ้านป่าบงเก่า</td></tr><tr><td style="text-align: center;"><img src="legend/village_12_บานโปงอาง14.png" /></td><td>บ้านโปงอาง</td></tr><tr><td style="text-align: center;"><img src="legend/village_12_บานเมองนะ15.png" /></td><td>บ้านเมืองนะ</td></tr><tr><td style="text-align: center;"><img src="legend/village_12_บานแมแกน16.png" /></td><td>บ้านแม่แกน</td></tr><tr><td style="text-align: center;"><img src="legend/village_12_บานรนหลวง17.png" /></td><td>บ้านรินหลวง</td></tr><tr><td style="text-align: center;"><img src="legend/village_12_บานโละปาหาญ18.png" /></td><td>บ้านโล๊ะป่าหาญ</td></tr><tr><td style="text-align: center;"><img src="legend/village_12_บานหนองเขยว19.png" /></td><td>บ้านหนองเขียว</td></tr><tr><td style="text-align: center;"><img src="legend/village_12_บานหนองเขยวคะฉน20.png" /></td><td>บ้านหนองเขียวคะฉิ่น</td></tr><tr><td style="text-align: center;"><img src="legend/village_12_บานหนองเขยวลวะ21.png" /></td><td>บ้านหนองเขียวลัวะ</td></tr><tr><td style="text-align: center;"><img src="legend/village_12_บานหนองแขม22.png" /></td><td>บ้านหนองแขม</td></tr><tr><td style="text-align: center;"><img src="legend/village_12_บานหนองววเแดง23.png" /></td><td>บ้านหนองวัวเแดง</td></tr><tr><td style="text-align: center;"><img src="legend/village_12_บานหวยถำ24.png" /></td><td>บ้านห้วยถ้ำ</td></tr><tr><td style="text-align: center;"><img src="legend/village_12_บานหวยลก25.png" /></td><td>บ้านห้วยลึก</td></tr><tr><td style="text-align: center;"><img src="legend/village_12_บานหวยไส26.png" /></td><td>บ้านห้วยไส้</td></tr><tr><td style="text-align: center;"><img src="legend/village_12_บานอรโณทย27.png" /></td><td>บ้านอรุโณทัย</td></tr><tr><td style="text-align: center;"><img src="legend/village_12_บานอาขา28.png" /></td><td>บ้านอาข่า</td></tr><tr><td style="text-align: center;"><img src="legend/village_12_ปาบงใหม29.png" /></td><td>ป่าบงใหม่</td></tr><tr><td style="text-align: center;"><img src="legend/village_12_30.png" /></td><td></td></tr></table>', layer: layer_village_12},
+            {label: 'interested_point<br /><table><tr><td style="text-align: center;"><img src="legend/interested_point_11_0.png" /></td><td></td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_145cafe大谷地1.png" /></td><td>145 cafe(大谷地）</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_7Elevenสาขาบานอรโณทย2อเชยงดาว132112.png" /></td><td>7-Eleven สาขา บ้านอรุโณทัย 2 (อ.เชียงดาว) (13211)</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_ArunothaiVillage大谷地村莊3.png" /></td><td>Arunothai Village (大谷地村莊)</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_BaanFamui4.png" /></td><td>Baan Famui</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_BOLANCoffee5.png" /></td><td>BOLAN Coffee</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_Coffeeartกวยเตยวบานเฮา6.png" /></td><td>Coffee art & ก๋วยเตี๋ยวบ้านเฮา</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_CrepeHouseเครปซอยวด7.png" /></td><td>Crepe House เครปซอยวัด</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_KoufuMalaBBQ8.png" /></td><td>Koufu Mala BBQ</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_LahuShehlehNumruChurch9.png" /></td><td>Lahu Shehleh Numru Church</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_LAWAละวาCoffee10.png" /></td><td>LAWA ละว้า Coffee</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_Nawhaicountryandhomestay11.png" /></td><td>Nawhai country and homestay</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_PhaDangMountainViewResort12.png" /></td><td>Pha Dang Mountain View Resort</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_SPบานสวน13.png" /></td><td>S.P บ้านสวน</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_กนยาลองรสอรท14.png" /></td><td>กันยาลองรีสอร์ท</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_กาแฟสดไรชอลดา15.png" /></td><td>กาแฟสดไร่ช่อลดา</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_กงบนดอยเชยงดาว16.png" /></td><td>กุ้งบนดอย เชียงดาว</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_ไกวลณเชยงดาวKaiwanAtChiangdao17.png" /></td><td>ไกวัล ณ เชียงดาว Kaiwan At Chiangdao</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_ครวชมธาร18.png" /></td><td>ครัวชมธาร</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_ครสจกรบานนาหวายNawaiChurch19.png" /></td><td>คริสจักรบ้านนาหวาย Nawai Church</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_ครสตจกรคะฉนแบบตสตบานใหมสามคคBKBC20.png" /></td><td>คริสตจักรคะฉิ่นแบ๊บติสต์ บ้านใหม่สามัคคี (ฺBKBC)</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_ครสตจกรชวตนรนดรบานหนองเขยวโบสถ521.png" /></td><td>คริสตจักรชีวิตนิรันดร์บ้านหนองเขียว (โบสถ์ 5)</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_ครสตจกรชวตนรนดรบานหวยถำแกนอย22.png" /></td><td>คริสตจักรชีวิตนิรันดร์บ้านห้วยถ้ำแกน้อย</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_ครสตจกรบานใหมสามคค23.png" /></td><td>คริสตจักรบ้านใหม่สามัคคี</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_ครสตจกรบานใหมสามคคอาขา24.png" /></td><td>คริสตจักรบ้านใหม่สามัคคี(อาข่า)</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_ครสตจกรละวาหนองเขยวเชยงดาว25.png" /></td><td>คริสตจักรละว้าหนองเขียว เชียงดาว</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_ครสตจกรสมพนธลาหแซแลหนองเขยวโบสถ426.png" /></td><td>คริสตจักรสัมพันธ์ลาหู่แซแลหนองเขียวโบสถ์ 4</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_ครสตจกรหนองเขยวโบสถ227.png" /></td><td>คริสตจักรหนองเขียวโบสถ์ 2</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_คลนกหมอแทนคณบานอรโณทย28.png" /></td><td>คลินิกหมอแทนคุณ บ้านอรุโณทัย</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_โครงการหมบานปาไมแผนใหมบานนาศร29.png" /></td><td>โครงการหมู่บ้านป่าไม้แผนใหม่บ้านนาศิริ</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_จกรพรรดกาแฟอารมณดJakkraphatCoffeeAromdee30.png" /></td><td>จักรพรรดิ์กาแฟอารมณ์ดี Jakkraphat Coffee Aromdee</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_ชวชวหมกระทะบานอรโณทย31.png" /></td><td>ชิวชิวหมูกระทะบ้านอรุโณทัย</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_เชยงดาวธรรมชาตCAMP32.png" /></td><td>เชียงดาวธรรมชาติ CAMP</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_ฐานปฏบตการบานอรโณทยกองรอยทหารมาท2กองบงคบการควบคมท1หนวยเฉพาะกจกรมทหาร33.png" /></td><td>ฐานปฏิบัติการบ้านอรุโณทัย กองร้อยทหารม้าที่2 กองบังคับการควบคุมที่1 หน่วยเฉพาะกิจกรมทหาร</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_เดอcafe34.png" /></td><td>เด๋อ cafe</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_ถำมหาปญโญ35.png" /></td><td>ถ้ำมหาปุญโญ</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_ทราบสงคาเฟ36.png" /></td><td>ที่ราบสูง คาเฟ่</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_นำตกศรสงวาลย37.png" /></td><td>น้ำตกศรีสังวาลย์</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_บอนำรอนโปงอาง38.png" /></td><td>บ่อน้ำร้อนโป่งอาง</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_บานYenLoนงชลล39.png" /></td><td>บ้าน Yen Lo นั่งชิลล์</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_บานสวนนาโอเชยนปารค40.png" /></td><td>บ้านสวนนํ้าโอเชี่ยนปาร์ค</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_บานสวนรมธารนาหวาย41.png" /></td><td>บ้านสวนริมธารนาหวาย</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_มอนปอผอดาว42.png" /></td><td>ม่อนป้อ ผ่อดาว</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_รานปปาณดาเปดยาง43.png" /></td><td>ร้าน ป.ปาณิดา เป็ดย่าง</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_รานฟองชา44.png" /></td><td>ร้าน ฟองชา</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_รานกวยเตยวขาวเฟน45.png" /></td><td>ร้านก๋วยเตี๋ยว-ข้าวเฟิน</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_รานกนเองทะเลเผา46.png" /></td><td>ร้านกันเอง ทะเลเผา</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_รานกาแฟswamp47.png" /></td><td>ร้านกาแฟ swamp</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_รานกาแฟโครงการหลวงหนองเขยว48.png" /></td><td>ร้านกาแฟ โครงการหลวงหนองเขียว</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_รานคณแขกบานโละปาหาญ49.png" /></td><td>ร้านคุณแขก บ้านโละป่าหาญ</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_รานชามกกวยเตยวเกามะขาม50.png" /></td><td>ร้านชามุก&ก๋วยเตี๋ยวเก๊ามะขาม</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_รานโชคดนาหวาย51.png" /></td><td>ร้านโชคดี นาหวาย</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_รานตาหยงบะหมเกยวยนนานSince197652.png" /></td><td>ร้านต้าหยงบะหมี่เกี๊ยวยูนนานSince 1976</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_รานมนตนภาคาราโอเกะ53.png" /></td><td>ร้านมนต์นภา คาราโอเกะ</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_รานลซอยอง54.png" /></td><td>ร้านลีซอยอง</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_รานหมสดเชยวหล55.png" /></td><td>ร้านหมี่สด เชี่ยว หลี่</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_รานอาหารคณแดง56.png" /></td><td>ร้านอาหารคุณแดง</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_รานอาหารยนาน57.png" /></td><td>ร้านอาหารยูนาน</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_รานอาหารอสานทเดดตำแซบ58.png" /></td><td>ร้านอาหารอีสานทีเด็ดตำแซ่บ</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_รานอาหารอบวรบานโละปาหาญ59.png" /></td><td>ร้านอาหารอู่บวร บ้านโละป่าหาญ</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_โรงพยาบาลสงเสรมสขภาพตำบลบานแกนอย60.png" /></td><td>โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านแกน้อย</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_โรงพยาบาลสงเสรมสขภาพตำบลบานนาหวาย61.png" /></td><td>โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านนาหวาย</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_โรงพยาบาลสงเสรมสขภาพตำบลบานอรโณทย62.png" /></td><td>โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านอรุโณทัย</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_โรงเรยนแกนอยศกษา63.png" /></td><td>โรงเรียนแกน้อยศึกษา</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_โรงเรยนโครงการหลวงแกนอย64.png" /></td><td>โรงเรียนโครงการหลวงแกน้อย</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_โรงเรยนตำรวจตระเวนชายแดนเฉลมพระเกยรตบานแกนอย65.png" /></td><td>โรงเรียนตำรวจตระเวนชายแดนเฉลิมพระเกียรติ บ้านแกน้อย</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_โรงเรยนตำรวจตระเวนชายแดนบานหนองแขมสาขาบำรงท10766.png" /></td><td>โรงเรียนตำรวจตระเวนชายแดนบ้านหนองแขม (สาขาบำรุงที่ 107)</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_โรงเรยนบานนาหวาย67.png" /></td><td>โรงเรียนบ้านนาหวาย</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_โรงเรยนบานปาบง68.png" /></td><td>โรงเรียนบ้านป่าบง</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_โรงเรยนบานเมองนะ69.png" /></td><td>โรงเรียนบ้านเมืองนะ</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_โรงเรยนบานรนหลวง70.png" /></td><td>โรงเรียนบ้านรินหลวง</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_โรงเรยนบานหนองเขยว71.png" /></td><td>โรงเรียนบ้านหนองเขียว</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_โรงเรยนบานอรโณทย72.png" /></td><td>โรงเรียนบ้านอรุโณทัย</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_โรงเรยนเบญจม๒บานนำร73.png" /></td><td>โรงเรียนเบญจม ๒ บ้านน้ำรู</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_โรงเรยนภาษาจนหวซงบานอรโณทย74.png" /></td><td>โรงเรียนภาษาจีนหัวซิง : บ้านอรุโณทัย</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_โรงเรยนศรอรโณทยเนอรสเซอร75.png" /></td><td>โรงเรียนศรีอรุโณทัยเนอร์สเซอรี</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_โรงเรยนสอนภาษาจนเจยวเหรยญเชยงใหม清迈教联高级中学76.png" /></td><td>โรงเรียนสอนภาษาจีนเจี้ยวเหรียญเชียงใหม่/清迈教联高级中学</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_โรงเรยนสอนภาษาจนยยงบานไชยา77.png" /></td><td>โรงเรียนสอนภาษาจีนยู่ยิงบ้านไชยา</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_โรงเรยนหวชง78.png" /></td><td>โรงเรียนหัวชิง</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_โรงเรยนอนบาลเทศบาลตำบลเมองนะ79.png" /></td><td>โรงเรียนอนุบาลเทศบาลตำบลเมืองนะ</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_โรงเรยนอรโณทยวทยาคม80.png" /></td><td>โรงเรียนอรุโณทัยวิทยาคม</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_ลงชาใต81.png" /></td><td>ล้งชาใต้</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_วรรณทาทานำ82.png" /></td><td>วรรณทาท่าน้ำ</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_วดดอยมงกรทองอรโณทย83.png" /></td><td>วัดดอยมังกรทอง อรุโณทัย</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_วดนาหวาย84.png" /></td><td>วัดนาหวาย</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_วดนำร85.png" /></td><td>วัดน้ำรู</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_วดพทธพรหมปญโญวดถำเมองนะหลวงตามา86.png" /></td><td>วัดพุทธพรหมปัญโญ(วัดถ้ำเมืองนะ)หลวงตาม้า</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_วดมวงคำโปงอาง87.png" /></td><td>วัดม่วงคำโป่งอาง</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_วดโละปาหาญ88.png" /></td><td>วัดโล๊ะป่าหาญ</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_วดหวยไส89.png" /></td><td>วัดห้วยไส้</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_วดใหมศรรงเรองบานนำรวดบน90.png" /></td><td>วัดใหม่ศรีรุ่งเรือง บ้านน้ำรู (วัดบน)</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_วดอรโณทย91.png" /></td><td>วัดอรุโณทัย</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_ศนยพฒนาโครงการหลวงแกนอย92.png" /></td><td>ศูนย์พัฒนาโครงการหลวงแกน้อย</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_ศนยพฒนาโครงการหลวงหนองเขยว93.png" /></td><td>ศูนย์พัฒนาโครงการหลวงหนองเขียว</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_ศนยพฒนาเดกเลกนำร94.png" /></td><td>ศูนย์พัฒนาเด็กเล็กน้ำรู</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_ศนยพฒนาเดกเลกบานจองคำ95.png" /></td><td>ศูนย์พัฒนาเด็กเล็กบ้านจองคำ</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_ศนยพฒนาเดกเลกบานเจยจนทร96.png" /></td><td>ศูนย์พัฒนาเด็กเล็กบ้านเจียจันทร์</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_ศนยพฒนาเดกเลกบานนาหวาย97.png" /></td><td>ศูนย์พัฒนาเด็กเล็กบ้านนาหวาย</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_ศนยพฒนาเดกเลกบานรนหลวง98.png" /></td><td>ศูนย์พัฒนาเด็กเล็กบ้านรินหลวง</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_ศนยพฒนาเดกเลกบานโละปาหาญ99.png" /></td><td>ศูนย์พัฒนาเด็กเล็กบ้านโล๊ะป่าหาญ</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_ศนยพฒนาเดกเลกบานหนองเขยว100.png" /></td><td>ศูนย์พัฒนาเด็กเล็กบ้านหนองเขียว</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_ศนยพฒนาเดกเลกบานอรโณทย101.png" /></td><td>ศูนย์พัฒนาเด็กเล็กบ้านอรุโณทัย</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_สถานบรการสาธารณสขชมชนเมองนะ102.png" /></td><td>สถานบริการสาธารณสุขชุมชนเมืองนะ</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_สถานรบเลยงเดกเกอหลนฮนเนอสเซอร103.png" /></td><td>สถานรับเลี้ยงเด็กเก๋อหลินฮั่น เนอสเซอรี่</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_สมตำปมาลาบสาอาหารตามสง104.png" /></td><td>ส้มตำปูม้า ลาบ ส้า อาหารตามสั่ง</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_สวนเมองนะแสนรกMuengnasLoveGarden猛納愛情花園105.png" /></td><td>สวนเมืองนะแสนรัก Muengna\'s Love Garden 猛納愛情花園</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_สหกรณการเกษตรโครงการหลวงแกนอยจำกด106.png" /></td><td>สหกรณ์การเกษตรโครงการหลวงแกน้อย จำกัด</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_สำนกงานเทศบาลตำบลเมองนะ107.png" /></td><td>สำนักงานเทศบาลตำบลเมืองนะ</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_สำนกปฏบตธรรมหมนแสนบญ108.png" /></td><td>สำนักปฏิบัติธรรมหมื่นแสนบุญ</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_สำนกสงฆแกนอยไชยา109.png" /></td><td>สำนักสงฆ์แกน้อย-ไชยา</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_หนวยจดการตนนำดอยถวย110.png" /></td><td>หน่วยจัดการต้นน้ำดอยถ้วย</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_หนวยพทกษอทยานแหงชาตผาแดงทผด1เมองนะ111.png" /></td><td>หน่วยพิทักษ์อุทยานแห่งชาติผาแดงที่ ผด.1 (เมืองนะ)</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_หมวยคาเฟทายซอย112.png" /></td><td>หมวย คาเฟ่ ท้ายซอย</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_อนตตารามถำวว113.png" /></td><td>อนัตตารามถ้ำวัว</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_อทยานแหงชาตผาแดง114.png" /></td><td>อุทยานแห่งชาติผาแดง</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_ฮารโมนการเดนเฮาสHamonyGardenHouse115.png" /></td><td>ฮาร์โมนี่ การ์เด้น เฮ้าส์ Hamony Garden House</td></tr><tr><td style="text-align: center;"><img src="legend/interested_point_11_ไฮฮกหวยเปาเชยงดาว116.png" /></td><td>ไฮ่..ฮักห้วยเป้า @ เชียงดาว</td></tr></table>', layer: layer_interested_point_11},
+            {label: '<img src="legend/watertang_waterwell_10.png" /> water-tang_water-well', layer: layer_watertang_waterwell_10},
+            {label: '<img src="legend/road_9.png" /> road', layer: layer_road_9},
+            {label: '<img src="legend/stream_8.png" /> stream', layer: layer_stream_8},
+            {label: 'Landuse<br /><table><tr><td style="text-align: center;"><img src="legend/Landuse_7_ถนน0.png" /></td><td>ถนน</td></tr><tr><td style="text-align: center;"><img src="legend/Landuse_7_ทพกอาศย1.png" /></td><td>ที่พักอาศัย</td></tr><tr><td style="text-align: center;"><img src="legend/Landuse_7_ปาผลดใบ2.png" /></td><td>ป่าผลัดใบ</td></tr><tr><td style="text-align: center;"><img src="legend/Landuse_7_พชไร3.png" /></td><td>พืชไร่</td></tr><tr><td style="text-align: center;"><img src="legend/Landuse_7_พนทของมลนธโครงการหลวง4.png" /></td><td>พื้นที่ของมูลนิธิโครงการหลวง</td></tr><tr><td style="text-align: center;"><img src="legend/Landuse_7_พนทลม5.png" /></td><td>พื้นที่ลุ่ม</td></tr><tr><td style="text-align: center;"><img src="legend/Landuse_7_ไมผล6.png" /></td><td>ไม้ผล</td></tr><tr><td style="text-align: center;"><img src="legend/Landuse_7_ไมยนตน7.png" /></td><td>ไม้ยืนต้น</td></tr><tr><td style="text-align: center;"><img src="legend/Landuse_7_สถานทราชการ8.png" /></td><td>สถานที่ราชการ</td></tr><tr><td style="text-align: center;"><img src="legend/Landuse_7_สถานทสำคญทางศาสนา9.png" /></td><td>สถานที่สำคัญทางศาสนา</td></tr><tr><td style="text-align: center;"><img src="legend/Landuse_7_สถานศกษา10.png" /></td><td>สถานศึกษา</td></tr><tr><td style="text-align: center;"><img src="legend/Landuse_7_สถานอนามย11.png" /></td><td>สถานีอนามัย</td></tr><tr><td style="text-align: center;"><img src="legend/Landuse_7_แหลงนำ12.png" /></td><td>แหล่งน้ำ</td></tr><tr><td style="text-align: center;"><img src="legend/Landuse_7_อนๆ13.png" /></td><td>อื่นๆ</td></tr><tr><td style="text-align: center;"><img src="legend/Landuse_7_อตสาหกรรม14.png" /></td><td>อุตสาหกรรม</td></tr><tr><td style="text-align: center;"><img src="legend/Landuse_7_15.png" /></td><td></td></tr></table>', layer: layer_Landuse_7},
+            {label: '<img src="legend/Muang_na_boundary_6.png" /> Muang_na_boundary', layer: layer_Muang_na_boundary_6},
+            {label: '<img src="legend/park_5.png" /> park', layer: layer_park_5},
+            {label: 'preserved_forest<br /><table><tr><td style="text-align: center;"><img src="legend/preserved_forest_4_ปาเชยงดาว0.png" /></td><td>ป่าเชียงดาว</td></tr><tr><td style="text-align: center;"><img src="legend/preserved_forest_4_ปาลมนำแมฝาง1.png" /></td><td>ป่าลุ่มน้ำแม่ฝาง</td></tr><tr><td style="text-align: center;"><img src="legend/preserved_forest_4_2.png" /></td><td></td></tr></table>', layer: layer_preserved_forest_4},
+            {label: 'rainfall<br /><table><tr><td style="text-align: center;"><img src="legend/rainfall_3_ปรมาณฝน10001300มมป0.png" /></td><td>ปริมาณฝน 1000-1300 มม/ปี</td></tr><tr><td style="text-align: center;"><img src="legend/rainfall_3_ปรมาณฝนนอยกวา1000มมป1.png" /></td><td>ปริมาณฝนน้อยกว่า 1000 มม/ปี</td></tr><tr><td style="text-align: center;"><img src="legend/rainfall_3_ปรมาณฝนมากกวา1300มมป2.png" /></td><td>ปริมาณฝนมากกว่า 1300 มม/ปี</td></tr><tr><td style="text-align: center;"><img src="legend/rainfall_3_3.png" /></td><td></td></tr></table>', layer: layer_rainfall_3},
+            {label: 'Royal_Project_Boundary<br /><table><tr><td style="text-align: center;"><img src="legend/Royal_Project_Boundary_2_ศนยพฒนาโครงการหลวงแกนอย0.png" /></td><td>ศูนย์พัฒนาโครงการหลวงแกน้อย</td></tr><tr><td style="text-align: center;"><img src="legend/Royal_Project_Boundary_2_ศนยพฒนาโครงการหลวงหนองเขยว1.png" /></td><td>ศูนย์พัฒนาโครงการหลวงหนองเขียว</td></tr><tr><td style="text-align: center;"><img src="legend/Royal_Project_Boundary_2_2.png" /></td><td></td></tr></table>', layer: layer_Royal_Project_Boundary_2},
+            {label: 'High_level<br /><table><tr><td style="text-align: center;"><img src="legend/High_level_1_0100เมตร0.png" /></td><td>0-100 เมตร</td></tr><tr><td style="text-align: center;"><img src="legend/High_level_1_100200เมตร1.png" /></td><td>100-200 เมตร</td></tr><tr><td style="text-align: center;"><img src="legend/High_level_1_10001100เมตร2.png" /></td><td>1000-1100 เมตร</td></tr><tr><td style="text-align: center;"><img src="legend/High_level_1_11001200เมตร3.png" /></td><td>1100-1200 เมตร</td></tr><tr><td style="text-align: center;"><img src="legend/High_level_1_12001300เมตร4.png" /></td><td>1200-1300 เมตร</td></tr><tr><td style="text-align: center;"><img src="legend/High_level_1_13001400เมตร5.png" /></td><td>1300-1400 เมตร</td></tr><tr><td style="text-align: center;"><img src="legend/High_level_1_14001500เมคร6.png" /></td><td>1400-1500 เมคร</td></tr><tr><td style="text-align: center;"><img src="legend/High_level_1_15001600เมตร7.png" /></td><td>1500-1600 เมตร</td></tr><tr><td style="text-align: center;"><img src="legend/High_level_1_16001700เมตร8.png" /></td><td>1600-1700 เมตร</td></tr><tr><td style="text-align: center;"><img src="legend/High_level_1_17001800เมตร9.png" /></td><td>1700-1800 เมตร</td></tr><tr><td style="text-align: center;"><img src="legend/High_level_1_18001900เมตร10.png" /></td><td>1800-1900 เมตร</td></tr><tr><td style="text-align: center;"><img src="legend/High_level_1_200300เมตร11.png" /></td><td>200-300 เมตร</td></tr><tr><td style="text-align: center;"><img src="legend/High_level_1_300400เมตร12.png" /></td><td>300-400 เมตร</td></tr><tr><td style="text-align: center;"><img src="legend/High_level_1_500600เมตร13.png" /></td><td>500-600 เมตร</td></tr><tr><td style="text-align: center;"><img src="legend/High_level_1_600700เมตร14.png" /></td><td>600-700 เมตร</td></tr><tr><td style="text-align: center;"><img src="legend/High_level_1_700800เมตร15.png" /></td><td>700-800 เมตร</td></tr><tr><td style="text-align: center;"><img src="legend/High_level_1_800900เมตร16.png" /></td><td>800-900 เมตร</td></tr><tr><td style="text-align: center;"><img src="legend/High_level_1_9001000เมตร17.png" /></td><td>900-1000 เมตร</td></tr><tr><td style="text-align: center;"><img src="legend/High_level_1_มากกวา1900เมตร18.png" /></td><td>มากกว่า 1900 เมตร</td></tr><tr><td style="text-align: center;"><img src="legend/High_level_1_19.png" /></td><td></td></tr></table>', layer: layer_High_level_1},
+            {label: "google satellite", layer: layer_googlesatellite_0},]
+        var lay = L.control.layers.tree(null, overlaysTree,{
+            //namedToggle: true,
+            //selectorBack: false,
+            //closedSymbol: '&#8862; &#x1f5c0;',
+            //openedSymbol: '&#8863; &#x1f5c1;',
+            //collapseAll: 'Collapse all',
+            //expandAll: 'Expand all',
+            collapsed: true,
+        });
+        lay.addTo(map);
+        setBounds();
+        </script>
+    </body>
+</html>
